@@ -28,7 +28,7 @@ class Weather
     temperature = weatherDictionary["temperature"] as! Double
     humidity = weatherDictionary["humidity"] as! Double
     windSpeed = weatherDictionary["windSpeed"] as! Double
-    cloudCover = weatherDictionary["cloudCover"] as! Double
+    cloudCover = weatherDictionary[""]
   }
   
   static func weatherWithDictionary(weatherDict: [String: Any]) -> Weather
