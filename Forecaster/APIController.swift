@@ -11,12 +11,12 @@ import Foundation
 
 protocol APIControllerProtocol
 {
-  func didReceive(_ descriptors: [Any])
+  func apiControllerDidReceive(results: [String: Any])
 }
 
 class APIController
 {
-  var delegate: APIControllerProtocol?
+  var delegate: APIControllerProtocol
   
   init(delegate: APIControllerProtocol)
   {
@@ -34,15 +34,20 @@ class APIController
       {
         print(error.localizedDescription)
       }
-      else
+      else if let data = data,
+        let dictionary = self.parseJSON(data),
+        let currentlyDictionary = dictionary["currently"] as? [String: Any]
       {
-        if let dictionary = self.parseJSON(data!)
-        {
-          if let descriptors = dictionary["discriptors"] as? [Any]
-          {
-            self.delegate?.didReceive(descriptors)
-          }
-        }
+        self.delegate.apiControllerDidReceive(results: currentlyDictionary)
+        
+        
+//        if let dictionary = self.parseJSON(data)
+//        {
+//          if let currentlyDictionary = dictionary["currently"] as? [String: Any]
+//          {
+//            self.delegate?.didReceive(attributes)
+//          }
+//        }
       }
     })
     task.resume()

@@ -10,7 +10,7 @@ import UIKit
 
 class ForecasterViewController: UIViewController, APIControllerProtocol
 {
-  var weatherDescriptors = [Weather]()
+  var weatherAttributes = [Weather]()
   
   @IBOutlet weak var precipProbability: UILabel!
   @IBOutlet weak var windSpeed: UILabel!
@@ -34,16 +34,11 @@ class ForecasterViewController: UIViewController, APIControllerProtocol
     // Dispose of any resources that can be recreated.
   }
 
-  func didReceive(_ descriptors: [Any])
+  func didReceive(_ attributes: [Any])
   {
     dismiss(animated: true, completion: nil)
-    Weather.init(weatherDictionary: descriptors)
-    
-//    weatherDescriptors.append(descriptors)
-    
-    
-    
-    precipProbability.text = descriptors.precipProabablity
+//    weatherAttributes.append(attributes)
+//    precipProbability.text = Weather.precipProabablity
     loadView()
   }
 }
