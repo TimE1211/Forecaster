@@ -7,13 +7,18 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ForecasterViewController: UIViewController, APIControllerProtocol
+class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocationManagerDelegate
 {
   var weatherObjects = [Weather]()
   var apiController: APIController!   //ApiController Object not made yet, need var apiController to call search url function from class ApiController
   let formatter = DateFormatter()
   let today = Date()
+  var locationLatitude = Double()
+  var locationLongitude = Double()
+  
+  let locationManager = CLLocationManager()
   
   @IBOutlet weak var precipProbabilityLabel: UILabel!
   @IBOutlet weak var windSpeedLabel: UILabel!
@@ -29,45 +34,139 @@ class ForecasterViewController: UIViewController, APIControllerProtocol
     super.viewDidLoad()
     formatter.dateFormat = "EEE, MMM dd "
     dateLabel.text = formatter.string(from: today)
-    view.backgroundColor = UIColor.orange
+    view.backgroundColor = UIColor.yellow
     temperatureLabel.text = ""
     
-    for label in [hatLabel, bootsLabel, umbrellaLabel, cloudCoverLabel]
-    {
-      label?.isHidden = true          //hiding labels that arent ready yet
-    }
+    loadCurrentLocation()
+    
+//    for label in [hatLabel, bootsLabel,umbrellaLabel, cloudCoverLabel]
+//    {
+//      label?.isHidden = true
+//    }                                         this code is for hiding labels that arnt ready by david
     
     if let label = temperatureLabel
     {
-      label.layer.cornerRadius = label.frame.width/2        //how to make a circle by david
+      label.layer.cornerRadius = label.frame.width/2                                              //how to make a circle by david
       label.layer.borderColor = UIColor.black.cgColor
       label.layer.borderWidth = 5.0
       label.layer.backgroundColor = UIColor.white.cgColor
     }
     
     apiController = APIController(delegate: self)
-    apiController.searchDarkSkyFor(latitude: "28.540923", longitude: "-81.38216")
-    
+    apiController.searchDarkSkyFor(latitude: "\(locationLatitude)", longitude: "\(locationLongitude)")
   }
 
   override func didReceiveMemoryWarning()
   {
     super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+  }
+
+  func loadCurrentLocation()
+  {
+    configureLocationManager()
   }
   
-  func apiControllerDidReceive(results: [String : Any])
+  func configureLocationManager()
   {
-    let currentWeather = Weather(weatherDictionary: results)    //argument passed thru delegate = currently key value dictionary
+    if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.denied && CLLocationManager.authorizationStatus() != CLAuthorizationStatus.restricted
+    {
+      locationManager.delegate = self
+      locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+      if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined
+      {
+        locationManager.requestWhenInUseAuthorization()
+      }
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus)
+  {
+    if status == CLAuthorizationStatus.authorizedWhenInUse
+    {
+      locationManager.startUpdatingLocation()
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+  {
+    locationManager.stopUpdatingLocation()
+    if let location = locations.last
+    {
+      locationLatitude = location.coordinate.latitude
+      locationLongitude = location.coordinate.longitude
+    }
+  }
+  
+  // end of location functions and beginning of api and weather funcs
+  
+  func apiControllerDidReceive(results: [String : Any])         // protocol function receiving info below
+  {
+    let currentWeather = Weather(weatherDictionary: results)    //Weather object with the "currently" key value dictionary
     self.reloadView(with: currentWeather)
   }
   
   func reloadView(with weather: Weather)
   {
-    windSpeedLabel.text = String(weather.windSpeed) + "mph🌬"
-    precipProbabilityLabel.text = String(weather.precipProbability) + "%💧"
+    windSpeedLabel.text = String(weather.windSpeed) + "kph🌬"
+    precipProbabilityLabel.text = String(Int((weather.precipProbability)*100)) + "%💧"
     temperatureLabel.text = String(weather.temperature) + "º"
     cloudCoverLabel.text = String(weather.cloudCover)
+    bootsLabel.text = ""
+    if weather.precipProbability > 0.5
+    {
+      umbrellaLabel.text = "⛱"
+    }
+    else
+    {
+      umbrellaLabel.text = ""
+    }
+    if weather.windSpeed > 10
+    {
+      hatLabel.text = "💂"
+    }
+    else
+    {
+        hatLabel.text = ""
+    }
+    
+    // clouds
+    
+    //cloudCoverLabel.text = 🌧⛈🌨
+    if weather.cloudCover > 0.10
+    {
+      cloudCoverLabel.text = "☀️"
+    }
+    else if weather.cloudCover > 0.25
+    {
+      cloudCoverLabel.text = "🌤"
+    }
+    else if weather.cloudCover > 0.75
+    {
+      cloudCoverLabel.text = "☁️"
+    }
+    else if weather.cloudCover > 0.75 && weather.precipProbability > 0.9
+    {
+      cloudCoverLabel.text = "🌦"
+    }
+    else if weather.cloudCover > 0.99 && weather.precipProbability > 0.93
+    {
+      cloudCoverLabel.text = "🌦"
+    }
+    else
+    {
+      cloudCoverLabel.text = "🌧"
+    }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
