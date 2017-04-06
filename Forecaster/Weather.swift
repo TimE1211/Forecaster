@@ -10,7 +10,6 @@ import Foundation
 
 class Weather
 {
-  //  let DarkSkyURL = "https://api.darksky.net/forecast/61c89a172b4204bb03af10e2342671cd/37.8267,-122.4233"
   
   let summary: String
   let precipProbability: Double
