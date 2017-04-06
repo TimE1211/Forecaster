@@ -23,9 +23,10 @@ class APIController
     self.delegate = delegate
   }
   
-  func searchDarkSkyFor(_ searchTerm:String)
+  func searchDarkSkyFor(latitude: String, longitude: String)
   {
-    let urlPath = "https://api.darksky.net/forecast/61c89a172b4204bb03af10e2342671cd/28.540923,-81.38216"
+//    let urlPath = "https://api.darksky.net/forecast/61c89a172b4204bb03af10e2342671cd/28.540923,-81.38216"
+    let urlPath = "https://api.darksky.net/forecast/61c89a172b4204bb03af10e2342671cd/\(latitude),\(longitude)"
     let url = URL(string: urlPath)!
     let session = URLSession.shared
     let task = session.dataTask(with: url, completionHandler: {data, response, error -> Void in
@@ -38,8 +39,10 @@ class APIController
         let dictionary = self.parseJSON(data),
         let currentlyDictionary = dictionary["currently"] as? [String: Any]
       {
-        self.delegate.apiControllerDidReceive(results: currentlyDictionary)
-        
+        DispatchQueue.main.async
+        {
+          self.delegate.apiControllerDidReceive(results: currentlyDictionary)
+        }
         
 //        if let dictionary = self.parseJSON(data)
 //        {
