@@ -36,6 +36,11 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     dateLabel.text = formatter.string(from: today)
     view.backgroundColor = UIColor.yellow
     temperatureLabel.text = ""
+    hatLabel.text = ""
+    umbrellaLabel.text = ""
+    cloudCoverLabel.text = ""
+    precipProbabilityLabel.text = ""
+    windSpeedLabel.text = ""
     
     loadCurrentLocation()
     
@@ -97,7 +102,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     }
   }
   
-  // end of location functions and beginning of api and weather funcs
+  // end of location functions and beginning of api and weather funcs... could probably move location functions to api to decrease bloat
   
   func apiControllerDidReceive(results: [String : Any])         // protocol function receiving info below
   {
@@ -107,11 +112,25 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
   
   func reloadView(with weather: Weather)
   {
-    windSpeedLabel.text = String(weather.windSpeed) + "kph🌬"
-    precipProbabilityLabel.text = String(Int((weather.precipProbability)*100)) + "%💧"
+    //precipitation type
+    
+    var precipType = String()
+    
+    if weather.summary == "snow" || weather.summary == "sleet"
+    {
+      precipType = "❄️"
+    }
+    else
+    {
+      precipType = "💧"
+    }
+      
+    //setting labels
+    
+    windSpeedLabel.text = String(weather.windSpeed) + "mph🌬"
     temperatureLabel.text = String(weather.temperature) + "º"
-    cloudCoverLabel.text = String(weather.cloudCover)
-    bootsLabel.text = ""
+    precipProbabilityLabel.text = String(Int((weather.precipProbability)*100)) + "%\(precipType)"
+    
     if weather.precipProbability > 0.5
     {
       umbrellaLabel.text = "⛱"
@@ -120,41 +139,52 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     {
       umbrellaLabel.text = ""
     }
-    if weather.windSpeed > 10
+    
+    if weather.windSpeed >= 10
     {
       hatLabel.text = "💂"
     }
     else
     {
-        hatLabel.text = ""
+      hatLabel.text = ""
     }
     
+
     // clouds
     
-    //cloudCoverLabel.text = 🌧⛈🌨
-    if weather.cloudCover > 0.10
+    //cloudCoverLabel.text = ⛈
+    
+    if weather.cloudCover < 0.25 && weather.precipProbability < 0.7
     {
       cloudCoverLabel.text = "☀️"
     }
-    else if weather.cloudCover > 0.25
+    else if weather.cloudCover < 0.25 && weather.precipProbability >= 0.7
+    {
+      cloudCoverLabel.text = "☀️\(precipType)"
+    }
+    else if weather.cloudCover >= 0.25 && weather.cloudCover < 0.6 && weather.precipProbability < 0.7
     {
       cloudCoverLabel.text = "🌤"
     }
-    else if weather.cloudCover > 0.75
+    else if weather.cloudCover >= 0.25 && weather.cloudCover < 0.6 && weather.precipProbability >= 0.7
+    {
+      cloudCoverLabel.text = "🌤\(precipType)"
+    }
+    else if weather.cloudCover > 0.8 && weather.precipProbability < 0.7
     {
       cloudCoverLabel.text = "☁️"
     }
-    else if weather.cloudCover > 0.75 && weather.precipProbability > 0.9
+    else if weather.cloudCover >= 0.6 && weather.cloudCover <= 0.8 && weather.precipProbability >= 0.7
     {
-      cloudCoverLabel.text = "🌦"
+      cloudCoverLabel.text = "🌦\(precipType)"
     }
-    else if weather.cloudCover > 0.99 && weather.precipProbability > 0.93
+    else if weather.cloudCover > 0.8 && weather.precipProbability >= 0.7
     {
-      cloudCoverLabel.text = "🌦"
+      cloudCoverLabel.text = "🌧\(precipType)"
     }
     else
     {
-      cloudCoverLabel.text = "🌧"
+      cloudCoverLabel.text = ""
     }
   }
 }

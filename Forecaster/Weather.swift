@@ -11,17 +11,17 @@ import Foundation
 class Weather
 {
   
-  let summary: String
-  let precipProbability: Double
-  let precipIntensity: Double
-  let temperature: Double
-  let humidity: Double
-  let windSpeed: Double
-  let cloudCover: Double
+  var summary: String
+  var precipProbability: Double
+  var precipIntensity: Double
+  var temperature: Double
+  var humidity: Double
+  var windSpeed: Double
+  var cloudCover: Double
   
   init(weatherDictionary: [String: Any])
   {
-    summary = weatherDictionary["summary"] as? String ?? ""
+    summary = weatherDictionary["icon"] as? String ?? ""
     precipProbability = weatherDictionary["precipProbability"] as! Double
     precipIntensity = weatherDictionary["precipIntensity"] as! Double
     temperature = weatherDictionary["temperature"] as! Double
