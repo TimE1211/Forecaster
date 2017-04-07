@@ -16,7 +16,6 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
   let today = Date()
   var locationLatitude = Double()
   var locationLongitude = Double()
-  
   let locationManager = CLLocationManager()
   
   @IBOutlet weak var precipProbabilityLabel: UILabel!
@@ -191,7 +190,6 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
       locationLongitude = location.coordinate.longitude
     }
   }
-  
   // end of location functions ... could probably move location functions to api to decrease bloat
 }
 
