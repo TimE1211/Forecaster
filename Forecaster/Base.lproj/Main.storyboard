@@ -68,6 +68,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Max" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kn1-Jw-64l">
+                                <rect key="frame" x="171" y="182.5" width="32" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Min" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pd8-na-Jk3">
+                                <rect key="frame" x="173" y="493.5" width="28" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -75,12 +87,16 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wiB-AV-V8w" secondAttribute="bottom" constant="10" id="1Kp-2H-016"/>
                             <constraint firstItem="zml-il-swB" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.75" id="2A6-Xy-eTD"/>
                             <constraint firstItem="ybc-nD-TAJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="25" id="33A-DT-dQZ"/>
+                            <constraint firstItem="pd8-na-Jk3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5BS-9G-Lcm"/>
                             <constraint firstItem="peO-jm-gdQ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="5rw-Nd-ia0"/>
                             <constraint firstAttribute="trailing" secondItem="zhm-tl-vn1" secondAttribute="trailing" constant="5" id="S5S-k2-XYZ"/>
                             <constraint firstItem="peO-jm-gdQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="5" id="Upw-J0-PTv"/>
                             <constraint firstItem="zml-il-swB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wjb-7q-Y1b"/>
                             <constraint firstItem="zml-il-swB" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="15" id="YaX-1S-NKe"/>
                             <constraint firstItem="wiB-AV-V8w" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZjG-bM-0Sv"/>
+                            <constraint firstItem="pd8-na-Jk3" firstAttribute="top" secondItem="zml-il-swB" secondAttribute="bottom" constant="5" id="cbJ-qM-QsW"/>
+                            <constraint firstItem="zml-il-swB" firstAttribute="top" secondItem="kn1-Jw-64l" secondAttribute="bottom" constant="5" id="hEq-j5-2SM"/>
+                            <constraint firstItem="kn1-Jw-64l" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iI6-z4-MhB"/>
                             <constraint firstItem="zhm-tl-vn1" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="qJO-4I-cPg"/>
                             <constraint firstItem="ybc-nD-TAJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rAj-nZ-Mq8"/>
                             <constraint firstItem="ybc-nD-TAJ" firstAttribute="top" secondItem="QL6-no-9su" secondAttribute="bottom" id="rBA-lf-wDU"/>
@@ -93,6 +109,8 @@
                         <outlet property="cloudCoverLabel" destination="wiB-AV-V8w" id="9jF-S8-zyw"/>
                         <outlet property="dateLabel" destination="zhm-tl-vn1" id="p7c-Tt-f0w"/>
                         <outlet property="hatLabel" destination="QL6-no-9su" id="egA-wI-DPK"/>
+                        <outlet property="maxTempLabel" destination="kn1-Jw-64l" id="t1p-g8-S10"/>
+                        <outlet property="minTempLabel" destination="pd8-na-Jk3" id="Vw7-bi-pvQ"/>
                         <outlet property="precipProbabilityLabel" destination="peO-jm-gdQ" id="brW-UN-D7N"/>
                         <outlet property="temperatureLabel" destination="zml-il-swB" id="VyJ-vp-kEK"/>
                         <outlet property="umbrellaLabel" destination="ybc-nD-TAJ" id="Fp2-Zp-G11"/>

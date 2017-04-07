@@ -11,7 +11,6 @@ import CoreLocation
 
 class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocationManagerDelegate
 {
-  var weatherObjects = [Weather]()
   var apiController: APIController!   //ApiController Object not made yet, need var apiController to call search url function from class ApiController
   let formatter = DateFormatter()
   let today = Date()
@@ -28,19 +27,23 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
   @IBOutlet weak var hatLabel: UILabel!
   @IBOutlet weak var umbrellaLabel: UILabel!
   @IBOutlet weak var bootsLabel: UILabel!
+  @IBOutlet weak var minTempLabel: UILabel!
+  @IBOutlet weak var maxTempLabel: UILabel!
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
     formatter.dateFormat = "EEE, MMM dd "
     dateLabel.text = formatter.string(from: today)
-    view.backgroundColor = UIColor.yellow
+    view.backgroundColor = UIColor.orange
     temperatureLabel.text = ""
     hatLabel.text = ""
     umbrellaLabel.text = ""
     cloudCoverLabel.text = ""
     precipProbabilityLabel.text = ""
     windSpeedLabel.text = ""
+    minTempLabel.text = ""
+    maxTempLabel.text = ""
     
     loadCurrentLocation()
     
@@ -54,7 +57,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
       label.layer.cornerRadius = label.frame.width/2                                              //how to make a circle by david
       label.layer.borderColor = UIColor.black.cgColor
       label.layer.borderWidth = 5.0
-      label.layer.backgroundColor = UIColor.white.cgColor
+      label.layer.backgroundColor = UIColor.yellow.cgColor
     }
     
     apiController = APIController(delegate: self)
@@ -66,54 +69,17 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     super.didReceiveMemoryWarning()
   }
 
-  func loadCurrentLocation()
+  func apiControllerDidReceive(results1: [String : Any])//, results2: [String: Any])      // protocol function receiving info below
   {
-    configureLocationManager()
+    let currentWeather = CurrentlyWeather(currentlyDictionary: results1)    //Weather object with the "currently" key value dictionary
+//    let dailyWeather = DailyWeather(dailyDictionary: results2)
+    self.reloadViewCurrently(with: currentWeather)
+//    self.reloadViewDaily(with: dailyWeather)
   }
   
-  func configureLocationManager()
-  {
-    if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.denied && CLLocationManager.authorizationStatus() != CLAuthorizationStatus.restricted
-    {
-      locationManager.delegate = self
-      locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-      if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined
-      {
-        locationManager.requestWhenInUseAuthorization()
-      }
-    }
-  }
-  
-  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus)
-  {
-    if status == CLAuthorizationStatus.authorizedWhenInUse
-    {
-      locationManager.startUpdatingLocation()
-    }
-  }
-  
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-  {
-    locationManager.stopUpdatingLocation()
-    if let location = locations.last
-    {
-      locationLatitude = location.coordinate.latitude
-      locationLongitude = location.coordinate.longitude
-    }
-  }
-  
-  // end of location functions and beginning of api and weather funcs... could probably move location functions to api to decrease bloat
-  
-  func apiControllerDidReceive(results: [String : Any])         // protocol function receiving info below
-  {
-    let currentWeather = Weather(weatherDictionary: results)    //Weather object with the "currently" key value dictionary
-    self.reloadView(with: currentWeather)
-  }
-  
-  func reloadView(with weather: Weather)
+  func reloadViewCurrently(with weather: CurrentlyWeather)
   {
     //precipitation type
-    
     var precipType = String()
     
     if weather.summary == "snow" || weather.summary == "sleet"
@@ -124,8 +90,6 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     {
       precipType = "💧"
     }
-      
-    //setting labels
     
     windSpeedLabel.text = String(weather.windSpeed) + "mph🌬"
     temperatureLabel.text = String(weather.temperature) + "º"
@@ -148,8 +112,6 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     {
       hatLabel.text = ""
     }
-    
-
     // clouds
     
     //cloudCoverLabel.text = ⛈
@@ -187,6 +149,50 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
       cloudCoverLabel.text = ""
     }
   }
+  
+  func reloadViewDaily(with weather: DailyWeather)
+  {
+  minTempLabel.text = String(weather.temperatureMin) + "º"
+  maxTempLabel.text = String(weather.temperatureMax) + "º"
+  }
+  
+  func loadCurrentLocation()
+  {
+    configureLocationManager()
+  }
+  
+  func configureLocationManager()
+  {
+    if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.denied && CLLocationManager.authorizationStatus() != CLAuthorizationStatus.restricted
+    {
+      locationManager.delegate = self
+      locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+      if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined
+      {
+        locationManager.requestWhenInUseAuthorization()
+      }
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus)
+  {
+    if status == CLAuthorizationStatus.authorizedWhenInUse
+    {
+      locationManager.startUpdatingLocation()
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+  {
+    locationManager.stopUpdatingLocation()
+    if let location = locations.last
+    {
+      locationLatitude = location.coordinate.latitude
+      locationLongitude = location.coordinate.longitude
+    }
+  }
+  
+  // end of location functions ... could probably move location functions to api to decrease bloat
 }
 
 
