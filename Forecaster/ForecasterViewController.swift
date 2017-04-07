@@ -68,12 +68,20 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     super.didReceiveMemoryWarning()
   }
 
-  func apiControllerDidReceive(results1: [String : Any])//, results2: [String: Any])      // protocol function receiving info below
+  func apiControllerDidReceive(results1: [String : Any], results2: [String: Any])      // protocol function receiving info below
   {
+    let dailyDataArray = results2["data"] as! [Any]
+    let dailyData = dailyDataArray[0] as! [String: Any]
     let currentWeather = CurrentlyWeather(currentlyDictionary: results1)    //Weather object with the "currently" key value dictionary
-//    let dailyWeather = DailyWeather(dailyDictionary: results2)
+    let dailyWeather = DailyWeather(dailyDictionary: dailyData)
     self.reloadViewCurrently(with: currentWeather)
-//    self.reloadViewDaily(with: dailyWeather)
+    self.reloadViewDaily(with: dailyWeather)
+  }
+  
+  func reloadViewDaily(with weather: DailyWeather)
+  {
+    minTempLabel.text = String(weather.temperatureMin) + "º"
+    maxTempLabel.text = String(weather.temperatureMax) + "º"
   }
   
   func reloadViewCurrently(with weather: CurrentlyWeather)
@@ -115,31 +123,27 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     
     //cloudCoverLabel.text = ⛈
     
-    if weather.cloudCover < 0.25 && weather.precipProbability < 0.7
+    if weather.cloudCover < 0.25 && weather.precipProbability < 1
     {
       cloudCoverLabel.text = "☀️"
     }
-    else if weather.cloudCover < 0.25 && weather.precipProbability >= 0.7
+    else if weather.cloudCover < 0.25 && weather.precipProbability == 1
     {
       cloudCoverLabel.text = "☀️\(precipType)"
     }
-    else if weather.cloudCover >= 0.25 && weather.cloudCover < 0.6 && weather.precipProbability < 0.7
+    else if weather.cloudCover >= 0.25 && weather.cloudCover <= 0.75 && weather.precipProbability < 1
     {
       cloudCoverLabel.text = "🌤"
     }
-    else if weather.cloudCover >= 0.25 && weather.cloudCover < 0.6 && weather.precipProbability >= 0.7
-    {
-      cloudCoverLabel.text = "🌤\(precipType)"
-    }
-    else if weather.cloudCover > 0.8 && weather.precipProbability < 0.7
+    else if weather.cloudCover > 0.75 && weather.precipProbability < 1
     {
       cloudCoverLabel.text = "☁️"
     }
-    else if weather.cloudCover >= 0.6 && weather.cloudCover <= 0.8 && weather.precipProbability >= 0.7
+    else if weather.cloudCover >= 0.25 && weather.cloudCover <= 0.75 && weather.precipProbability == 1
     {
       cloudCoverLabel.text = "🌦\(precipType)"
     }
-    else if weather.cloudCover > 0.8 && weather.precipProbability >= 0.7
+    else if weather.cloudCover > 0.75 && weather.precipProbability == 1
     {
       cloudCoverLabel.text = "🌧\(precipType)"
     }
@@ -148,12 +152,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
       cloudCoverLabel.text = ""
     }
   }
-  
-  func reloadViewDaily(with weather: DailyWeather)
-  {
-  minTempLabel.text = String(weather.temperatureMin) + "º"
-  maxTempLabel.text = String(weather.temperatureMax) + "º"
-  }
+  //Location
   
   func loadCurrentLocation()
   {

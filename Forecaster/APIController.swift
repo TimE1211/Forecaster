@@ -11,7 +11,7 @@ import Foundation
 
 protocol APIControllerProtocol
 {
-  func apiControllerDidReceive(results1: [String: Any])//, results2: [String: Any])
+  func apiControllerDidReceive(results1: [String: Any], results2: [String: Any])
 }
 
 class APIController
@@ -36,19 +36,18 @@ class APIController
       }
       else if let data = data,
         let dictionary = self.parseJSON(data),
-        let currentlyDictionary = dictionary["currently"] as? [String: Any]//,
-//        let dailyDictionaryOuter = dictionary["daily"] as? [String: Any],
-//        let dailyDictionary = dailyDictionaryOuter["data"] as? [String: Any]
+        let currentlyDictionary = dictionary["currently"] as? [String: Any],
+        let dailyDictionary = dictionary["daily"] as? [String: Any]
       {
         DispatchQueue.main.async              //switching to the main thread
         {
-          self.delegate.apiControllerDidReceive(results1: currentlyDictionary) //, results2: dailyDictionary)
+          self.delegate.apiControllerDidReceive(results1: currentlyDictionary, results2: dailyDictionary)
         }
 //        if let dictionary = self.parseJSON(data)
 //        {
 //          if let currentlyDictionary = dictionary["currently"] as? [String: Any]
 //          {
-//            self.delegate?.didReceive(attributes)
+//            self.delegate?.didReceive(results1)
 //          }
 //        }
       }

@@ -12,6 +12,7 @@ class DailyWeather
 {
   var temperatureMax: Double
   var temperatureMin: Double
+  
 init(dailyDictionary: [String: Any])
   {
     temperatureMax = dailyDictionary["temperatureMax"] as! Double
