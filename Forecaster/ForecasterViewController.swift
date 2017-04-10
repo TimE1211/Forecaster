@@ -32,9 +32,14 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
   override func viewDidLoad()
   {
     super.viewDidLoad()
+    let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+    backgroundImage.image = UIImage(named: "colourback_9006.jpg")
+    self.view.insertSubview(backgroundImage, at: 0)
+//    http://stackoverflow.com/questions/27049937/how-to-set-a-background-image-in-xcode-using-swift
+//    http://wallpaperswide.com/rainy_weather-wallpapers.html = images.jpeg url
+//    http://www.zrarts.com/Websites-for-Background-Colors/ = colourback_9006.jpg url
     formatter.dateFormat = "EEE, MMM dd "
     dateLabel.text = formatter.string(from: today)
-    view.backgroundColor = UIColor.orange
     temperatureLabel.text = ""
     hatLabel.text = ""
     umbrellaLabel.text = ""
@@ -59,7 +64,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     if let label = temperatureLabel
     {
       label.layer.cornerRadius = label.frame.width/2                                              //how to make a circle by david
-      label.layer.borderColor = UIColor.black.cgColor
+      label.layer.borderColor = UIColor.gray.cgColor
       label.layer.borderWidth = 5.0
       label.layer.backgroundColor = UIColor.white.cgColor
     }
