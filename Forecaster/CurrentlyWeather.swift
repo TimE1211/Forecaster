@@ -11,7 +11,7 @@ import Foundation
 class CurrentlyWeather
 {
   
-  var summary: String
+  var icon: String
   var precipProbability: Double
   var temperature: Double
   var humidity: Double
@@ -20,7 +20,7 @@ class CurrentlyWeather
   
   init(currentlyDictionary: [String: Any])
   {
-    summary = currentlyDictionary["icon"] as? String ?? ""
+    icon = currentlyDictionary["icon"] as? String ?? ""
     precipProbability = currentlyDictionary["precipProbability"] as! Double
     temperature = currentlyDictionary["temperature"] as! Double
     humidity = currentlyDictionary["humidity"] as! Double

@@ -17,6 +17,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
   var locationLatitude = Double()
   var locationLongitude = Double()
   let locationManager = CLLocationManager()
+  var dailyWeather = [DailyWeather]()
   
   @IBOutlet weak var precipProbabilityLabel: UILabel!
   @IBOutlet weak var windSpeedLabel: UILabel!
@@ -25,7 +26,6 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
   @IBOutlet weak var dateLabel: UILabel!
   @IBOutlet weak var hatLabel: UILabel!
   @IBOutlet weak var umbrellaLabel: UILabel!
-  @IBOutlet weak var bootsLabel: UILabel!
   @IBOutlet weak var minTempLabel: UILabel!
   @IBOutlet weak var maxTempLabel: UILabel!
   
@@ -84,21 +84,28 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     super.didReceiveMemoryWarning()
   }
 
-  func apiControllerDidReceive(results1: [String : Any], results2: [String: Any])      // protocol function receiving info below
+  func apiControllerDidSend(results1: [String : Any], results2: [String: Any])      // protocol function receiving info below
   {
     let dailyDataArray = results2["data"] as! [Any]
-    let dailyData = dailyDataArray[0] as! [String: Any]
+    let todaysData = dailyDataArray[0] as! [String: Any]
     let currentWeather = CurrentlyWeather(currentlyDictionary: results1)    //Weather object with the "currently" key value dictionary
-    let dailyWeather = DailyWeather(dailyDictionary: dailyData)
+    let todaysWeather = DailyWeather(dailyDictionary: todaysData)
+    
     self.reloadViewCurrently(with: currentWeather)
-    self.reloadViewDaily(with: dailyWeather)
+    self.reloadViewDaily(with: todaysWeather)
     animateWeatherViews()
+    
+    for dailyData in dailyDataArray
+    {
+      let datesWeather = DailyWeather(dailyDictionary: dailyData as! [String: Any])
+      dailyWeather.append(datesWeather)
+    }
   }
   
   func reloadViewDaily(with weather: DailyWeather)
   {
-    minTempLabel.text = String(weather.temperatureMin) + "º"
-    maxTempLabel.text = String(weather.temperatureMax) + "º"
+    minTempLabel.text = String(Int(weather.temperatureMin)) + "º"
+    maxTempLabel.text = String(Int(weather.temperatureMax)) + "º"
   }
   
   func reloadViewCurrently(with weather: CurrentlyWeather)
@@ -106,7 +113,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     //precipitation type
     var precipType = String()
     
-    if weather.summary == "snow" || weather.summary == "sleet"
+    if weather.icon == "snow" || weather.icon == "sleet"
     {
       precipType = "❄️"
     }
@@ -116,10 +123,10 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     }
     
     windSpeedLabel.text = String(weather.windSpeed) + "mph🌬"
-    temperatureLabel.text = String(weather.temperature) + "º"
+    temperatureLabel.text = String(Int(weather.temperature)) + "º"
     precipProbabilityLabel.text = String(Int((weather.precipProbability)*100)) + "%\(precipType)"
     
-    if weather.precipProbability > 0.5
+    if weather.precipProbability > 0.8
     {
       umbrellaLabel.text = "⛱"
     }
@@ -167,6 +174,15 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     else
     {
       cloudCoverLabel.text = ""
+    }
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+  {
+    if segue.identifier == "WeeklyForecastSegue"
+    {
+      let dailyTVC = segue.destination as! DailyWeatherTableViewController
+      dailyTVC.dailyWeather = dailyWeather
     }
   }
 }

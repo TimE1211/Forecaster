@@ -11,7 +11,7 @@ import Foundation
 
 protocol APIControllerProtocol
 {
-  func apiControllerDidReceive(results1: [String: Any], results2: [String: Any])
+  func apiControllerDidSend(results1: [String: Any], results2: [String: Any])
 }
 
 class APIController
@@ -25,7 +25,7 @@ class APIController
   
   func searchDarkSkyFor(latitude: String, longitude: String)
   {
-    let urlPath = "https://api.darksky.net/forecast/61c89a172b4204bb03af10e2342671cd/\(latitude),\(longitude)"
+    let urlPath = "https://api.darksky.net/forecast//\(latitude),\(longitude)"
     let url = URL(string: urlPath)!
     let session = URLSession.shared
     let task = session.dataTask(with: url, completionHandler: {data, response, error -> Void in
@@ -41,13 +41,13 @@ class APIController
       {
         DispatchQueue.main.async              //switching to the main thread
         {
-          self.delegate.apiControllerDidReceive(results1: currentlyDictionary, results2: dailyDictionary)
+          self.delegate.apiControllerDidSend(results1: currentlyDictionary, results2: dailyDictionary)
         }
 //        if let dictionary = self.parseJSON(data)
 //        {
 //          if let currentlyDictionary = dictionary["currently"] as? [String: Any]
 //          {
-//            self.delegate?.didReceive(results1)
+//            self.delegate?.didSend(results1)
 //          }
 //        }
       }
