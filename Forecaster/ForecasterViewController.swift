@@ -44,6 +44,11 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     minTempLabel.text = ""
     maxTempLabel.text = ""
     
+    let blurView = UIVisualEffectView(frame: self.view.frame)
+    
+    self.view.addSubview(blurView)
+    self.view.sendSubview(toBack: blurView)
+    
     loadCurrentLocation()
     
 //    for label in [hatLabel, bootsLabel,umbrellaLabel, cloudCoverLabel]
@@ -56,11 +61,17 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
       label.layer.cornerRadius = label.frame.width/2                                              //how to make a circle by david
       label.layer.borderColor = UIColor.black.cgColor
       label.layer.borderWidth = 5.0
-      label.layer.backgroundColor = UIColor.yellow.cgColor
+      label.layer.backgroundColor = UIColor.white.cgColor
     }
     
     apiController = APIController(delegate: self)
+  }
+  
+  override func viewWillAppear(_ animated: Bool)
+  {
+    super.viewWillAppear(animated)
     apiController.searchDarkSkyFor(latitude: "\(locationLatitude)", longitude: "\(locationLongitude)")
+    hideWeatherViewsInPreparationForAnimation()
   }
 
   override func didReceiveMemoryWarning()
@@ -76,6 +87,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     let dailyWeather = DailyWeather(dailyDictionary: dailyData)
     self.reloadViewCurrently(with: currentWeather)
     self.reloadViewDaily(with: dailyWeather)
+    animateWeatherViews()
   }
   
   func reloadViewDaily(with weather: DailyWeather)
@@ -152,8 +164,11 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
       cloudCoverLabel.text = ""
     }
   }
-  //Location
-  
+}
+
+extension ForecasterViewController
+{
+
   func loadCurrentLocation()
   {
     configureLocationManager()
@@ -192,6 +207,50 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
   // end of location functions ... could probably move location functions to api to decrease bloat
 }
 
+extension ForecasterViewController
+{
+  func hideWeatherViewsInPreparationForAnimation()
+  {
+    temperatureLabel.alpha = 0
+  }
+  
+  func animateWeatherViews()
+  {
+    let labels = [temperatureLabel!, windSpeedLabel!, hatLabel!, umbrellaLabel!, maxTempLabel!, minTempLabel!, cloudCoverLabel!, windSpeedLabel!, precipProbabilityLabel!]
+    let originalOriginYs = labels.map
+    {
+      label in
+      label.frame.origin.y
+    }
+    
+    for label in labels
+    {
+      label.frame.origin.y = view.frame.height
+    }
+//    [array of labels]
+    
+    
+    UIView.animate(withDuration: 0.5, animations:
+    {     //david and I worked together on animations
+      
+      var count = 0
+      for label in labels
+      {
+        label.alpha = 1
+        label.frame.origin.y = originalOriginYs[count]
+        
+        count += 1
+      }
+    }, completion: { finished in
+      UIView.animate(withDuration: 0.25, animations:
+      {
+        self.temperatureLabel.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+      }, completion: { finished in
+        self.temperatureLabel.transform = .identity
+      })
+    })
+  }
+}
 
 
 

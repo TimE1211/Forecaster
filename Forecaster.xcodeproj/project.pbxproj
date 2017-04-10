@@ -15,6 +15,7 @@
 		2054BF371E9550C100AA1897 /* CurrentlyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2054BF361E9550C100AA1897 /* CurrentlyWeather.swift */; };
 		2054BF391E956CBA00AA1897 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2054BF381E956CBA00AA1897 /* APIController.swift */; };
 		2054BF5D1E97FCE200AA1897 /* DailyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2054BF5C1E97FCE200AA1897 /* DailyWeather.swift */; };
+		2054BF5F1E98177100AA1897 /* WeeklyWeatherTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2054BF5E1E98177100AA1897 /* WeeklyWeatherTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		2054BF361E9550C100AA1897 /* CurrentlyWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentlyWeather.swift; sourceTree = "<group>"; };
 		2054BF381E956CBA00AA1897 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
 		2054BF5C1E97FCE200AA1897 /* DailyWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyWeather.swift; sourceTree = "<group>"; };
+		2054BF5E1E98177100AA1897 /* WeeklyWeatherTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeeklyWeatherTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			children = (
 				2054BF241E95509B00AA1897 /* AppDelegate.swift */,
 				2054BF261E95509B00AA1897 /* ForecasterViewController.swift */,
+				2054BF5E1E98177100AA1897 /* WeeklyWeatherTableViewController.swift */,
 				2054BF381E956CBA00AA1897 /* APIController.swift */,
 				2054BF361E9550C100AA1897 /* CurrentlyWeather.swift */,
 				2054BF5C1E97FCE200AA1897 /* DailyWeather.swift */,
@@ -148,6 +151,7 @@
 				2054BF5D1E97FCE200AA1897 /* DailyWeather.swift in Sources */,
 				2054BF391E956CBA00AA1897 /* APIController.swift in Sources */,
 				2054BF271E95509B00AA1897 /* ForecasterViewController.swift in Sources */,
+				2054BF5F1E98177100AA1897 /* WeeklyWeatherTableViewController.swift in Sources */,
 				2054BF371E9550C100AA1897 /* CurrentlyWeather.swift in Sources */,
 				2054BF251E95509B00AA1897 /* AppDelegate.swift in Sources */,
 			);
