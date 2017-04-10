@@ -49,10 +49,10 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     minTempLabel.text = ""
     maxTempLabel.text = ""
     
-    let blurView = UIVisualEffectView(frame: self.view.frame)
+   // let blurView = UIVisualEffectView(frame: self.view.frame)
     
-    self.view.addSubview(blurView)
-    self.view.sendSubview(toBack: blurView)
+   // self.view.addSubview(blurView)
+   // self.view.sendSubview(toBack: blurView)
     
     loadCurrentLocation()
     
@@ -63,7 +63,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     
     if let label = temperatureLabel
     {
-      label.layer.cornerRadius = label.frame.width/2                                              //how to make a circle by david
+      label.layer.cornerRadius = label.frame.width/2       //how to make a circle around labels help from david
       label.layer.borderColor = UIColor.gray.cgColor
       label.layer.borderWidth = 5.0
       label.layer.backgroundColor = UIColor.white.cgColor
@@ -171,7 +171,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
   }
 }
 
-extension ForecasterViewController
+extension ForecasterViewController      //location functions
 {
 
   func loadCurrentLocation()
@@ -212,7 +212,7 @@ extension ForecasterViewController
   // end of location functions ... could probably move location functions to api to decrease bloat
 }
 
-extension ForecasterViewController
+extension ForecasterViewController                //david and I worked together on animations
 {
   func hideWeatherViewsInPreparationForAnimation()
   {
@@ -236,7 +236,7 @@ extension ForecasterViewController
     
     
     UIView.animate(withDuration: 0.5, animations:
-    {     //david and I worked together on animations
+    {
       
       var count = 0
       for label in labels
