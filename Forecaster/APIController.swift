@@ -25,7 +25,7 @@ class APIController
   
   func searchDarkSkyFor(latitude: String, longitude: String)
   {
-    let urlPath = "https://api.darksky.net/forecast//\(latitude),\(longitude)"
+    let urlPath = "https://api.darksky.net/forecast/f932f6ef9837a1dd4c8e23059606560d/\(latitude),\(longitude)"
     let url = URL(string: urlPath)!
     let session = URLSession.shared
     let task = session.dataTask(with: url, completionHandler: {data, response, error -> Void in
