@@ -11,21 +11,21 @@ import Foundation
 
 protocol APIControllerProtocol
 {
-  func didReceive(_ descriptors: [Any])
+  func apiControllerDidSend(results1: [String: Any], results2: [String: Any])
 }
 
 class APIController
 {
-  var delegate: APIControllerProtocol?
+  var delegate: APIControllerProtocol
   
   init(delegate: APIControllerProtocol)
   {
     self.delegate = delegate
   }
   
-  func searchDarkSkyFor(_ searchTerm:String)
+  func searchDarkSkyFor(latitude: String, longitude: String)
   {
-    let urlPath = "https://api.darksky.net/forecast/61c89a172b4204bb03af10e2342671cd/28.540923,-81.38216"
+    let urlPath = "https://api.darksky.net/forecast/f932f6ef9837a1dd4c8e23059606560d/\(latitude),\(longitude)"
     let url = URL(string: urlPath)!
     let session = URLSession.shared
     let task = session.dataTask(with: url, completionHandler: {data, response, error -> Void in
@@ -34,15 +34,22 @@ class APIController
       {
         print(error.localizedDescription)
       }
-      else
+      else if let data = data,
+        let dictionary = self.parseJSON(data),
+        let currentlyDictionary = dictionary["currently"] as? [String: Any],
+        let dailyDictionary = dictionary["daily"] as? [String: Any]
       {
-        if let dictionary = self.parseJSON(data!)
+        DispatchQueue.main.async              //switching to the main thread
         {
-          if let descriptors = dictionary["discriptors"] as? [Any]
-          {
-            self.delegate?.didReceive(descriptors)
-          }
+          self.delegate.apiControllerDidSend(results1: currentlyDictionary, results2: dailyDictionary)
         }
+//        if let dictionary = self.parseJSON(data)
+//        {
+//          if let currentlyDictionary = dictionary["currently"] as? [String: Any]
+//          {
+//            self.delegate?.didSend(results1)
+//          }
+//        }
       }
     })
     task.resume()
@@ -69,8 +76,4 @@ class APIController
     }
   }
 }
-
-
-
-
 

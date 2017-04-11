@@ -12,8 +12,14 @@
 		2054BF2A1E95509B00AA1897 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2054BF281E95509B00AA1897 /* Main.storyboard */; };
 		2054BF2C1E95509B00AA1897 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2054BF2B1E95509B00AA1897 /* Assets.xcassets */; };
 		2054BF2F1E95509B00AA1897 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2054BF2D1E95509B00AA1897 /* LaunchScreen.storyboard */; };
-		2054BF371E9550C100AA1897 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2054BF361E9550C100AA1897 /* Weather.swift */; };
+		2054BF371E9550C100AA1897 /* CurrentlyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2054BF361E9550C100AA1897 /* CurrentlyWeather.swift */; };
 		2054BF391E956CBA00AA1897 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2054BF381E956CBA00AA1897 /* APIController.swift */; };
+		2054BF5D1E97FCE200AA1897 /* DailyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2054BF5C1E97FCE200AA1897 /* DailyWeather.swift */; };
+		20F26FCE1E9BAA3000348D81 /* images.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 20F26FCD1E9BAA3000348D81 /* images.jpeg */; };
+		20F26FD01E9BAB3700348D81 /* colourback_9006.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20F26FCF1E9BAB3700348D81 /* colourback_9006.jpg */; };
+		20F26FD41E9BD6BF00348D81 /* DailyWeatherTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F26FD31E9BD6BF00348D81 /* DailyWeatherTableViewController.swift */; };
+		20F26FD61E9BDF7200348D81 /* DailyWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F26FD51E9BDF7200348D81 /* DailyWeatherCell.swift */; };
+		20F26FDA1E9C13A100348D81 /* poweredby.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F26FD91E9C13A100348D81 /* poweredby.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +30,14 @@
 		2054BF2B1E95509B00AA1897 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2054BF2E1E95509B00AA1897 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2054BF301E95509B00AA1897 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2054BF361E9550C100AA1897 /* Weather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		2054BF361E9550C100AA1897 /* CurrentlyWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentlyWeather.swift; sourceTree = "<group>"; };
 		2054BF381E956CBA00AA1897 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
+		2054BF5C1E97FCE200AA1897 /* DailyWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyWeather.swift; sourceTree = "<group>"; };
+		20F26FCD1E9BAA3000348D81 /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
+		20F26FCF1E9BAB3700348D81 /* colourback_9006.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = colourback_9006.jpg; sourceTree = "<group>"; };
+		20F26FD31E9BD6BF00348D81 /* DailyWeatherTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyWeatherTableViewController.swift; sourceTree = "<group>"; };
+		20F26FD51E9BDF7200348D81 /* DailyWeatherCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyWeatherCell.swift; sourceTree = "<group>"; };
+		20F26FD91E9C13A100348D81 /* poweredby.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poweredby.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +73,14 @@
 				2054BF241E95509B00AA1897 /* AppDelegate.swift */,
 				2054BF261E95509B00AA1897 /* ForecasterViewController.swift */,
 				2054BF381E956CBA00AA1897 /* APIController.swift */,
-				2054BF361E9550C100AA1897 /* Weather.swift */,
+				20F26FD31E9BD6BF00348D81 /* DailyWeatherTableViewController.swift */,
+				20F26FD51E9BDF7200348D81 /* DailyWeatherCell.swift */,
+				2054BF361E9550C100AA1897 /* CurrentlyWeather.swift */,
+				2054BF5C1E97FCE200AA1897 /* DailyWeather.swift */,
 				2054BF281E95509B00AA1897 /* Main.storyboard */,
+				20F26FD91E9C13A100348D81 /* poweredby.png */,
+				20F26FCD1E9BAA3000348D81 /* images.jpeg */,
+				20F26FCF1E9BAB3700348D81 /* colourback_9006.jpg */,
 				2054BF2B1E95509B00AA1897 /* Assets.xcassets */,
 				2054BF2D1E95509B00AA1897 /* LaunchScreen.storyboard */,
 				2054BF301E95509B00AA1897 /* Info.plist */,
@@ -130,7 +148,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2054BF2F1E95509B00AA1897 /* LaunchScreen.storyboard in Resources */,
+				20F26FCE1E9BAA3000348D81 /* images.jpeg in Resources */,
 				2054BF2C1E95509B00AA1897 /* Assets.xcassets in Resources */,
+				20F26FDA1E9C13A100348D81 /* poweredby.png in Resources */,
+				20F26FD01E9BAB3700348D81 /* colourback_9006.jpg in Resources */,
 				2054BF2A1E95509B00AA1897 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,9 +163,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2054BF5D1E97FCE200AA1897 /* DailyWeather.swift in Sources */,
 				2054BF391E956CBA00AA1897 /* APIController.swift in Sources */,
+				20F26FD41E9BD6BF00348D81 /* DailyWeatherTableViewController.swift in Sources */,
 				2054BF271E95509B00AA1897 /* ForecasterViewController.swift in Sources */,
-				2054BF371E9550C100AA1897 /* Weather.swift in Sources */,
+				2054BF371E9550C100AA1897 /* CurrentlyWeather.swift in Sources */,
+				20F26FD61E9BDF7200348D81 /* DailyWeatherCell.swift in Sources */,
 				2054BF251E95509B00AA1897 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,6 +329,7 @@
 				2054BF351E95509B00AA1897 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
