@@ -10,7 +10,6 @@ import Foundation
 
 class CurrentlyWeather
 {
-  
   var icon: String
   var precipProbability: Double
   var temperature: Double

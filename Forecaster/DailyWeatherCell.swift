@@ -15,19 +15,4 @@ class DailyWeatherCell: UITableViewCell
   @IBOutlet weak var precipProbLabel: UILabel!
   @IBOutlet weak var windSpeedLabel: UILabel!
   @IBOutlet weak var dateLabel: UILabel!
-
-
-  override func awakeFromNib()
-  {
-    super.awakeFromNib()
-    // Initialization code
-  }
-
-  override func setSelected(_ selected: Bool, animated: Bool)
-  {
-    super.setSelected(selected, animated: animated)
-
-    // Configure the view for the selected state
-  }
-
 }

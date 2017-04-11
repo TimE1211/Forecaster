@@ -17,9 +17,8 @@ class DailyWeather
   var cloudCover: Double
   var icon: String
   var date: Double
-
   
-init(dailyDictionary: [String: Any])
+  init(dailyDictionary: [String: Any])
   {
     temperatureMax = dailyDictionary["temperatureMax"] as! Double
     temperatureMin = dailyDictionary["temperatureMin"] as! Double
