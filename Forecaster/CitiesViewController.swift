@@ -11,7 +11,7 @@ import CoreLocation
 
 class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CitySelectorViewControllerProtocol
 {
-  var cities = [String]()
+  var cities = [City]()
   var location = String()
   
   override func viewDidLoad()
@@ -74,6 +74,19 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
   func cityAdded(location: String)
   {
     self.location = location
+    
+  }
+}
+
+struct City
+{
+  var locationLatitude = Double()
+  var locationLongitude = Double()
+  
+  init(latitude: Double, longitude: Double)
+  {
+    self.locationLatitude = latitude
+    self.locationLongitude = longitude
   }
 }
 
@@ -103,3 +116,11 @@ extension CitiesViewController              // MARK: - save functions
     //    }
 //  }
 }
+
+
+
+
+
+
+
+
