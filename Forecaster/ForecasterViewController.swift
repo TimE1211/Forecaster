@@ -123,7 +123,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     }
     
     windSpeedLabel.text = String(weather.windSpeed) + "mph🌬"
-    temperatureLabel.text = String(Int(weather.temperature)) + "º"
+    temperatureLabel.text = " " + String(Int(weather.temperature)) + "º"
     precipProbabilityLabel.text = String(Int((weather.precipProbability)*100)) + "%\(precipType)"
     
     if weather.precipProbability > 0.8
