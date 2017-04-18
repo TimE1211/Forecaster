@@ -9,27 +9,21 @@
 import UIKit
 import CoreLocation
 
-class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
+class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CitySelectorViewControllerProtocol
 {
-  var cities = [City]()
+  var cities = [String]()
   var location = String()
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    
-    // Do any additional setup after loading the view.
   }
   
   override func didReceiveMemoryWarning()
   {
     super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
-  
-  
-  // MARK: - Table view data source
-  
+
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
     return cities.count
@@ -39,18 +33,18 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
   {
     let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
     
-    let aCity = cities[indexPath.row]
-    cell.titleLabel.text =   aCity.title
-    cell.categoryLabel.text = aCity.category
-    
-    if aCity.done
-    {
-      cell.accessoryType = .checkmark
-    }
-    else
-    {
-      cell.accessoryType = .none
-    }
+//    let aCity = cities[indexPath.row]
+//    cell.titleLabel.text =   aCity.title
+//    cell.categoryLabel.text = aCity.category
+//    
+//    if aCity.done
+//    {
+//      cell.accessoryType = .checkmark
+//    }
+//    else
+//    {
+//      cell.accessoryType = .none
+//    }
     
     return cell
   }
@@ -60,27 +54,35 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
   {
     //    tableView.cellForRow(at: indexPath)?.accessoryType = .none
-    tableView.deselectRow(at: indexPath, animated: true)
+//    tableView.deselectRow(at: indexPath, animated: true)
     
-    if let selectedCell = tableView.cellForRow(at: indexPath)
-    {
-      let selectedCity = cities[indexPath.row]
-      
-      let geocoder = CLGeocoder()
-      geocoder.geocodeAddressString(location, completionHandler: {
-        placemarks, error in
-        if let geocodeError = error
-        {
-          print(geocodeError.localizedDescription)
-        }
-      })
-    }
+//    if let selectedCell = tableView.cellForRow(at: indexPath)
+//    {
+//      let selectedCity = cities[indexPath.row]
+//    
+//      let geocoder = CLGeocoder()
+//      geocoder.geocodeAddressString(location, completionHandler: {
+//        placemarks, error in
+//        if let geocodeError = error
+//        {
+//          print(geocodeError.localizedDescription)
+//        }
+//      })
+//    }
   }
   
-  func saveCities()
+  func cityAdded(location: String)
   {
-    let cityData = NSKeyedArchiver.archivedData(withRootObject: cities)
-    let defaults = UserDefaults.standard        //singleton -> one  unique object(standard object)
+    self.location = location
+  }
+}
+
+extension CitiesViewController              // MARK: - save functions
+{
+//  func saveCities()
+//  {
+//    let cityData = NSKeyedArchiver.archivedData(withRootObject: cities)
+//    let defaults = UserDefaults.standard        //singleton -> one  unique object(standard object)
     //    defaults.set(CityData, forKey: kCitiesKey)
     //    defaults.synchronize()
     //  }
@@ -99,5 +101,5 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
     //        }
     //      }
     //    }
-  }
+//  }
 }

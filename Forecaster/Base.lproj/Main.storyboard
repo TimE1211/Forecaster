@@ -99,7 +99,7 @@
                                 <rect key="frame" x="129.5" y="254" width="115" height="30"/>
                                 <state key="normal" title="Current Location"/>
                                 <connections>
-                                    <segue destination="TLm-hC-G7d" kind="show" id="YIj-ID-Cui"/>
+                                    <segue destination="TLm-hC-G7d" kind="show" identifier="CurrentLocationSegue" id="YIj-ID-Cui"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -149,10 +149,10 @@
             </objects>
             <point key="canvasLocation" x="1020" y="35.532233883058474"/>
         </scene>
-        <!--View Controller-->
+        <!--Cities View Controller-->
         <scene sceneID="b7Q-7h-WYK">
             <objects>
-                <viewController id="TLm-hC-G7d" sceneMemberID="viewController">
+                <viewController id="TLm-hC-G7d" customClass="CitiesViewController" customModule="Forecaster" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GSV-ec-vt3"/>
                         <viewControllerLayoutGuide type="bottom" id="Pzw-SN-X8J"/>
@@ -167,7 +167,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="v3b-Vi-xUz"/>
                                     <barButtonItem systemItem="add" id="dsK-Jc-qOT">
                                         <connections>
-                                            <segue destination="3ay-eN-ftG" kind="presentation" id="Bd2-iY-1uw"/>
+                                            <segue destination="3ay-eN-ftG" kind="presentation" identifier="AddCitySegue" id="Bd2-iY-1uw"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="RNU-yu-1nr"/>
@@ -204,10 +204,10 @@
             </objects>
             <point key="canvasLocation" x="1020" y="733.5832083958021"/>
         </scene>
-        <!--View Controller-->
+        <!--City Selector View Controller-->
         <scene sceneID="Vyh-Rm-NwC">
             <objects>
-                <viewController id="3ay-eN-ftG" sceneMemberID="viewController">
+                <viewController id="3ay-eN-ftG" customClass="CitySelectorViewController" customModule="Forecaster" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Szo-6m-Sw0"/>
                         <viewControllerLayoutGuide type="bottom" id="heW-Ye-W6D"/>
@@ -229,9 +229,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uiL-WC-zdY">
-                                <rect key="frame" x="144" y="388" width="87" height="33"/>
+                                <rect key="frame" x="144" y="373" width="87" height="33"/>
                                 <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="20"/>
                                 <state key="normal" title="Add City"/>
+                                <connections>
+                                    <action selector="addCityButton:" destination="3ay-eN-ftG" eventType="touchUpInside" id="kjj-5v-gUk"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -241,9 +244,12 @@
                             <constraint firstItem="uiL-WC-zdY" firstAttribute="centerX" secondItem="jRo-Le-2iG" secondAttribute="centerX" id="DaG-nQ-xgl"/>
                             <constraint firstItem="KWe-ee-QgC" firstAttribute="centerX" secondItem="jRo-Le-2iG" secondAttribute="centerX" id="Xlw-Rv-OND"/>
                             <constraint firstItem="fcg-9A-vMc" firstAttribute="centerY" secondItem="jRo-Le-2iG" secondAttribute="centerY" id="Xn9-U1-jNv"/>
-                            <constraint firstItem="uiL-WC-zdY" firstAttribute="top" secondItem="fcg-9A-vMc" secondAttribute="bottom" constant="40" id="lrt-nc-dXb"/>
+                            <constraint firstItem="uiL-WC-zdY" firstAttribute="top" secondItem="fcg-9A-vMc" secondAttribute="bottom" constant="25" id="lrt-nc-dXb"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="locationTextField" destination="fcg-9A-vMc" id="FB8-8s-EbF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="igR-NH-4oa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
