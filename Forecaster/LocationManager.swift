@@ -9,11 +9,21 @@
 import Foundation
 import CoreLocation
 
+protocol LocationManagerDelegate {
+  func locationManager(manager: LocationManager, didUpdateLocationWith latitude: Double, and longitude: Double)
+}
+
 class LocationManager
 {
   var locationLatitude = Double()
   var locationLongitude = Double()
   let locationManager = CLLocationManager()
+  var delegate: LocationManagerDelegate!
+  
+  init(delegate: LocationManagerDelegate)
+  {
+    self.delegate = delegate
+  }
   
   func loadCurrentLocation()
   {
@@ -47,6 +57,12 @@ class LocationManager
     {
       locationLatitude = location.coordinate.latitude
       locationLongitude = location.coordinate.longitude
+      
+      delegate.locationManager(
+        manager: self,
+        didUpdateLocationWith: self.locationLatitude,
+        and: self.locationLongitude
+      )
     }
   }
 }

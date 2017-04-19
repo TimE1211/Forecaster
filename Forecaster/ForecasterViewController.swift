@@ -9,14 +9,16 @@
 import UIKit
 import CoreLocation
 
-class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocationManagerDelegate
+class ForecasterViewController: UIViewController, APIControllerProtocol//, CLLocationManagerDelegate
 {
   var apiController: APIController!
+  var locationManager: LocationManager!
+  
   let formatter = DateFormatter()
   let today = Date()
-//  var locationLatitude = Double()
-//  var locationLongitude = Double()
-  let locationManager = LocationManager()
+  var locationLatitude = Double()
+  var locationLongitude = Double()
+  
   var dailyWeather = [DailyWeather]()
   
   @IBOutlet weak var precipProbabilityLabel: UILabel!
@@ -49,8 +51,6 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     minTempLabel.text = ""
     maxTempLabel.text = ""
     
-    self.locationManager.loadCurrentLocation()
-    
     if let label = temperatureLabel
     {
       label.layer.cornerRadius = label.frame.width/2
@@ -60,6 +60,9 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     }
     
     apiController = APIController(delegate: self)
+    locationManager = LocationManager(delegate: self)
+    
+    locationManager.loadCurrentLocation()
   }
   
   override func viewWillAppear(_ animated: Bool)
@@ -174,8 +177,17 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
   }
 }
 
-//extension ForecasterViewController      //location functions
-//{
+extension ForecasterViewController: LocationManagerDelegate
+{
+  func locationManager(manager: LocationManager, didUpdateLocationWith latitude: Double, and longitude: Double) {
+    self.locationLatitude = locationManager.locationLatitude
+    self.locationLongitude = locationManager.locationLongitude
+    print("\(locationLatitude) + \(locationLongitude)")
+  }
+}
+
+extension ForecasterViewController      //location functions
+{
 //
 //  func loadCurrentLocation()
 //  {
@@ -213,7 +225,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
 //    }
 //  }
 //  // end of location functions ... could probably move location functions to api to decrease bloat
-//}
+}
 
 extension ForecasterViewController                //david and I worked together on animations
 {

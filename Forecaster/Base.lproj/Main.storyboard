@@ -183,6 +183,32 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DlK-nf-7zX" id="jEC-Ia-dx2">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City Name, State" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4a-MZ-pWc">
+                                                    <rect key="frame" x="15" y="12" width="168.5" height="20.5"/>
+                                                    <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="🌤" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVr-Ls-Nn3">
+                                                    <rect key="frame" x="203" y="5" width="35" height="35.5"/>
+                                                    <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="35"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Temp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="795-VG-52g">
+                                                    <rect key="frame" x="258" y="5" width="86" height="35.5"/>
+                                                    <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="35"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="795-VG-52g" firstAttribute="leading" secondItem="dVr-Ls-Nn3" secondAttribute="trailing" constant="20" id="GEI-Jg-Mdn"/>
+                                                <constraint firstItem="795-VG-52g" firstAttribute="centerY" secondItem="dVr-Ls-Nn3" secondAttribute="centerY" id="Mhe-OC-K9z"/>
+                                                <constraint firstItem="y4a-MZ-pWc" firstAttribute="leading" secondItem="jEC-Ia-dx2" secondAttribute="leading" constant="15" id="jKo-Gg-rTv"/>
+                                                <constraint firstItem="y4a-MZ-pWc" firstAttribute="centerY" secondItem="jEC-Ia-dx2" secondAttribute="centerY" id="wk7-sU-IgQ"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>

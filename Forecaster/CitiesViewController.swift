@@ -75,6 +75,7 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
   {
     self.location = location
     
+//    City(latitude: , longitude: <#T##Double#>)
   }
 }
 
