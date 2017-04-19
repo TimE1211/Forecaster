@@ -64,7 +64,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
     
     apiController = APIController(delegate: self)
     locationManager = LocationManager(delegate: self)
-    citiesViewController = CitiesViewController(delegate: self)
+//    citiesViewController = CitiesViewController(delegate: self)
     
     locationManager.loadCurrentLocation()
   }

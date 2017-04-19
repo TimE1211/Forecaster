@@ -19,11 +19,11 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
   var cities = [City]()
   var delegate: CitiesViewControllerProtocol!
   
-  init(delegate: CitiesViewControllerProtocol)
-  {
-    self.delegate = delegate
-  }
-  
+//  init(delegate: CitiesViewControllerProtocol)
+//  {
+//    self.delegate = delegate
+//  }
+//  
   override func viewDidLoad()
   {
     super.viewDidLoad()

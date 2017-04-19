@@ -20,7 +20,9 @@ class LocationManager
   var locationLatitude = Double()
   var locationLongitude = Double()
   var locationName = String()
+  
   let locationManager = CLLocationManager()
+  
   var delegate: LocationManagerDelegate!
   
   init(delegate: LocationManagerDelegate)

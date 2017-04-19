@@ -18,6 +18,11 @@ class CitySelectorViewController: UIViewController
   var location = String()
   var delegate: CitySelectorViewControllerProtocol!
   
+//  init(delegate: CitySelectorViewControllerProtocol)
+//  {
+//    self.delegate = delegate
+//  }
+  
   @IBOutlet weak var locationTextField: UITextField!
 
   override func viewDidLoad()
