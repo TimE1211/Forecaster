@@ -17,13 +17,12 @@ protocol CitiesViewControllerProtocol
 class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CitySelectorViewControllerProtocol
 {
   var cities = [City]()
-  var delegate: APIControllerProtocol!
+  var delegate: CitiesViewControllerProtocol!
   
-  init(delegate: APIControllerProtocol)
+  init(delegate: CitiesViewControllerProtocol)
   {
     self.delegate = delegate
   }
-
   
   override func viewDidLoad()
   {
@@ -132,7 +131,7 @@ extension CitiesViewController              // MARK: - save functions
 //            }
 //          }
 //        }
-//  }
+  }
 }
 
 
