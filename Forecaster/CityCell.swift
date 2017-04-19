@@ -11,8 +11,8 @@ import UIKit
 class CityCell: UITableViewCell
 {
   @IBOutlet weak var cityNameLabel: UILabel!
-  @IBOutlet weak var cityCloudCoverLabel: UILabel!
-  @IBOutlet weak var cityTempLabel: UILabel!
+//  @IBOutlet weak var cityCloudCoverLabel: UILabel!
+//  @IBOutlet weak var cityTempLabel: UILabel!
   
   override func awakeFromNib()
   {

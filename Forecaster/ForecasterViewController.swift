@@ -9,15 +9,11 @@
 import UIKit
 import CoreLocation
 
-protocol ForecasterViewControllerProtocol
-{
-  func ForecasterViewControllerDidChange()
-}
-
-class ForecasterViewController: UIViewController, APIControllerProtocol, LocationManagerDelegate
+class ForecasterViewController: UIViewController, APIControllerProtocol, LocationManagerDelegate, CitiesViewControllerProtocol
 {
   var apiController: APIController!
   var locationManager: LocationManager!
+  var citiesViewController: CitiesViewController!
   
   let formatter = DateFormatter()
   let today = Date()
@@ -68,6 +64,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
     
     apiController = APIController(delegate: self)
     locationManager = LocationManager(delegate: self)
+    citiesViewController = CitiesViewController(delegate: self)
     
     locationManager.loadCurrentLocation()
   }
@@ -192,6 +189,12 @@ extension ForecasterViewController
     self.locationLongitude = locationManager.locationLongitude
     self.currentLocationLabel.text = locationManager.locationName
 //    print("\(locationLatitude) + \(locationLongitude)")
+  }
+  
+  func citiesViewControllerDidSend(latitude: Double, longitude: Double, name: String)
+  {
+    apiController.searchDarkSkyFor(latitude: "\(latitude)", longitude: "\(longitude)")
+    currentLocationLabel.text = name
   }
 }
 

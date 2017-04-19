@@ -9,9 +9,21 @@
 import UIKit
 import CoreLocation
 
+protocol CitiesViewControllerProtocol
+{
+  func citiesViewControllerDidSend(latitude: Double, longitude: Double, name: String)
+}
+
 class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CitySelectorViewControllerProtocol
 {
   var cities = [City]()
+  var delegate: APIControllerProtocol!
+  
+  init(delegate: APIControllerProtocol)
+  {
+    self.delegate = delegate
+  }
+
   
   override func viewDidLoad()
   {
@@ -34,7 +46,6 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
     
     let aCity = cities[indexPath.row]
     cell.cityNameLabel.text = aCity.cityName
-    
     
     return cell
   }
@@ -87,10 +98,22 @@ struct City
 
 extension CitiesViewController              // MARK: - save functions
 {
-//  func saveCities()
-//  {
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+  {
+    tableView.deselectRow(at: indexPath, animated: true)
+    
+    let selectedCity = cities[indexPath.row]
+    if selectedCity.cityName != ""
+    {
+      delegate.citiesViewControllerDidSend(latitude: selectedCity.locationLatitude, longitude: selectedCity.locationLongitude, name: selectedCity.cityName)
+    }
+  }
+  
+  func saveCities()
+  {
 //    let cityData = NSKeyedArchiver.archivedData(withRootObject: cities)
-//    let defaults = UserDefaults.standard        //singleton -> one  unique object(standard object)
+//    let defaults = UserDefaults.standard
 //        defaults.set(cityData, forKey: kCitiesKey)
 //        defaults.synchronize()
 //      }
