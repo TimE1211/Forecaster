@@ -9,7 +9,12 @@
 import UIKit
 import CoreLocation
 
-class ForecasterViewController: UIViewController, APIControllerProtocol//, CLLocationManagerDelegate
+protocol ForecasterViewControllerProtocol
+{
+  func ForecasterViewControllerDidChange()
+}
+
+class ForecasterViewController: UIViewController, APIControllerProtocol, LocationManagerDelegate
 {
   var apiController: APIController!
   var locationManager: LocationManager!
@@ -30,6 +35,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol//, CLLoc
   @IBOutlet weak var umbrellaLabel: UILabel!
   @IBOutlet weak var minTempLabel: UILabel!
   @IBOutlet weak var maxTempLabel: UILabel!
+  @IBOutlet weak var currentLocationLabel: UILabel!
   
   override func viewDidLoad()
   {
@@ -50,6 +56,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol//, CLLoc
     windSpeedLabel.text = ""
     minTempLabel.text = ""
     maxTempLabel.text = ""
+    currentLocationLabel.text = ""
     
     if let label = temperatureLabel
     {
@@ -177,54 +184,15 @@ class ForecasterViewController: UIViewController, APIControllerProtocol//, CLLoc
   }
 }
 
-extension ForecasterViewController: LocationManagerDelegate
+extension ForecasterViewController
 {
-  func locationManager(manager: LocationManager, didUpdateLocationWith latitude: Double, and longitude: Double) {
+  func locationManagerDidSend(latitude: Double, name: String, longitude: Double)
+  {
     self.locationLatitude = locationManager.locationLatitude
     self.locationLongitude = locationManager.locationLongitude
-    print("\(locationLatitude) + \(locationLongitude)")
+    self.currentLocationLabel.text = locationManager.locationName
+//    print("\(locationLatitude) + \(locationLongitude)")
   }
-}
-
-extension ForecasterViewController      //location functions
-{
-//
-//  func loadCurrentLocation()
-//  {
-//    configureLocationManager()
-//  }
-//  
-//  func configureLocationManager()
-//  {
-//    if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.denied && CLLocationManager.authorizationStatus() != CLAuthorizationStatus.restricted
-//    {
-//      locationManager.delegate = self
-//      locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-//      if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined
-//      {
-//        locationManager.requestWhenInUseAuthorization()
-//      }
-//    }
-//  }
-//  
-//  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus)
-//  {
-//    if status == CLAuthorizationStatus.authorizedWhenInUse
-//    {
-//      locationManager.startUpdatingLocation()
-//    }
-//  }
-//  
-//  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-//  {
-//    locationManager.stopUpdatingLocation()
-//    if let location = locations.last
-//    {
-//      locationLatitude = location.coordinate.latitude
-//      locationLongitude = location.coordinate.longitude
-//    }
-//  }
-//  // end of location functions ... could probably move location functions to api to decrease bloat
 }
 
 extension ForecasterViewController                //david and I worked together on animations

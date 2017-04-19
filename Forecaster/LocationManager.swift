@@ -8,15 +8,18 @@
 
 import Foundation
 import CoreLocation
+//import MapKit
 
-protocol LocationManagerDelegate {
-  func locationManager(manager: LocationManager, didUpdateLocationWith latitude: Double, and longitude: Double)
+protocol LocationManagerDelegate
+{
+  func locationManagerDidSend(latitude: Double, name: String, longitude: Double)
 }
 
 class LocationManager
 {
   var locationLatitude = Double()
   var locationLongitude = Double()
+  var locationName = String()
   let locationManager = CLLocationManager()
   var delegate: LocationManagerDelegate!
   
@@ -57,12 +60,11 @@ class LocationManager
     {
       locationLatitude = location.coordinate.latitude
       locationLongitude = location.coordinate.longitude
+      locationName = String(describing: location)
       
-      delegate.locationManager(
-        manager: self,
-        didUpdateLocationWith: self.locationLatitude,
-        and: self.locationLongitude
-      )
+      delegate.locationManagerDidSend(latitude: locationLatitude, name: locationName, longitude: locationLongitude)
     }
   }
 }
+
+

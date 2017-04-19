@@ -135,6 +135,7 @@
                     <navigationItem key="navigationItem" id="5bz-xB-NFj"/>
                     <connections>
                         <outlet property="cloudCoverLabel" destination="wiB-AV-V8w" id="9jF-S8-zyw"/>
+                        <outlet property="currentLocationLabel" destination="zml-il-swB" id="Tye-bx-rN5"/>
                         <outlet property="dateLabel" destination="zhm-tl-vn1" id="p7c-Tt-f0w"/>
                         <outlet property="hatLabel" destination="QL6-no-9su" id="egA-wI-DPK"/>
                         <outlet property="maxTempLabel" destination="kn1-Jw-64l" id="t1p-g8-S10"/>
@@ -190,13 +191,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="🌤" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVr-Ls-Nn3">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🌤" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVr-Ls-Nn3">
                                                     <rect key="frame" x="203" y="5" width="35" height="35.5"/>
                                                     <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="35"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Temp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="795-VG-52g">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="795-VG-52g">
                                                     <rect key="frame" x="258" y="5" width="86" height="35.5"/>
                                                     <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="35"/>
                                                     <nil key="textColor"/>
@@ -204,12 +205,19 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="dVr-Ls-Nn3" firstAttribute="leading" secondItem="y4a-MZ-pWc" secondAttribute="trailing" constant="20" id="3Jy-XO-hqM"/>
                                                 <constraint firstItem="795-VG-52g" firstAttribute="leading" secondItem="dVr-Ls-Nn3" secondAttribute="trailing" constant="20" id="GEI-Jg-Mdn"/>
                                                 <constraint firstItem="795-VG-52g" firstAttribute="centerY" secondItem="dVr-Ls-Nn3" secondAttribute="centerY" id="Mhe-OC-K9z"/>
+                                                <constraint firstItem="dVr-Ls-Nn3" firstAttribute="centerY" secondItem="y4a-MZ-pWc" secondAttribute="centerY" id="Vjv-an-1Vc"/>
                                                 <constraint firstItem="y4a-MZ-pWc" firstAttribute="leading" secondItem="jEC-Ia-dx2" secondAttribute="leading" constant="15" id="jKo-Gg-rTv"/>
                                                 <constraint firstItem="y4a-MZ-pWc" firstAttribute="centerY" secondItem="jEC-Ia-dx2" secondAttribute="centerY" id="wk7-sU-IgQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="cityCloudCoverLabel" destination="dVr-Ls-Nn3" id="jCg-Ca-212"/>
+                                            <outlet property="cityNameLabel" destination="y4a-MZ-pWc" id="kfH-Ce-qKX"/>
+                                            <outlet property="cityTempLabel" destination="795-VG-52g" id="0pT-aN-5t9"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

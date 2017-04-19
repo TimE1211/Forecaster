@@ -12,7 +12,6 @@ import CoreLocation
 class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CitySelectorViewControllerProtocol
 {
   var cities = [City]()
-  var location = String()
   
   override func viewDidLoad()
   {
@@ -33,49 +32,42 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
   {
     let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
     
-//    let aCity = cities[indexPath.row]
-//    cell.titleLabel.text =   aCity.title
-//    cell.categoryLabel.text = aCity.category
-//    
-//    if aCity.done
-//    {
-//      cell.accessoryType = .checkmark
-//    }
-//    else
-//    {
-//      cell.accessoryType = .none
-//    }
+    let aCity = cities[indexPath.row]
+    cell.cityNameLabel.text = aCity.cityName
+    
     
     return cell
   }
   
   // MARK: - Table view delegate
   
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-  {
-    //    tableView.cellForRow(at: indexPath)?.accessoryType = .none
-//    tableView.deselectRow(at: indexPath, animated: true)
-    
-//    if let selectedCell = tableView.cellForRow(at: indexPath)
-//    {
-//      let selectedCity = cities[indexPath.row]
-//    
-//      let geocoder = CLGeocoder()
-//      geocoder.geocodeAddressString(location, completionHandler: {
-//        placemarks, error in
-//        if let geocodeError = error
-//        {
-//          print(geocodeError.localizedDescription)
-//        }
-//      })
-//    }
-  }
-  
   func cityAdded(location: String)
   {
-    self.location = location
-    
-//    City(latitude: , longitude: <#T##Double#>)
+    cityNameOrZipLocation(location: location)
+  }
+  
+  func cityNameOrZipLocation(location: String)
+  {
+    let geocoder = CLGeocoder()
+    geocoder.geocodeAddressString(location, completionHandler: {
+      placemarks, error in
+      if let geocodeError = error
+      {
+        print(geocodeError.localizedDescription)
+      }
+      else
+      {
+        if let placemark = placemarks?[0]
+        {
+          let locationCoordinates = (placemark.location?.coordinate)!
+          let cityLatitude = locationCoordinates.latitude
+          let cityLongitude = locationCoordinates.longitude
+          let cityName = (placemark.name)
+          let aCity = City(latitude: cityLatitude, longitude: cityLongitude, name: cityName!)
+          self.cities.append(aCity)
+        }
+      }
+    })
   }
 }
 
@@ -83,11 +75,13 @@ struct City
 {
   var locationLatitude = Double()
   var locationLongitude = Double()
+  var cityName = String()
   
-  init(latitude: Double, longitude: Double)
+  init(latitude: Double, longitude: Double, name: String)
   {
     self.locationLatitude = latitude
     self.locationLongitude = longitude
+    self.cityName = name
   }
 }
 
@@ -97,24 +91,24 @@ extension CitiesViewController              // MARK: - save functions
 //  {
 //    let cityData = NSKeyedArchiver.archivedData(withRootObject: cities)
 //    let defaults = UserDefaults.standard        //singleton -> one  unique object(standard object)
-    //    defaults.set(CityData, forKey: kCitiesKey)
-    //    defaults.synchronize()
-    //  }
-    //
-    //  func loadCities()
-    //  {
-    //    if cities.count == 0
-    //    {
-    //      let defaults = UserDefaults.standard
-    //      if let CityData = defaults.object(forKey: kCitiesKey) as? Data
-    //      {
-    //        if let savedCities = NSKeyedUnarchiver.unarchiveObject(with: CityData) as? [CityCD]
-    //        {
-    //          cities = savedCities
-    //          tableView.reloadData()
-    //        }
-    //      }
-    //    }
+//        defaults.set(cityData, forKey: kCitiesKey)
+//        defaults.synchronize()
+//      }
+//    
+//      func loadCities()
+//      {
+//        if cities.count == 0
+//        {
+//          let defaults = UserDefaults.standard
+//          if let CityData = defaults.object(forKey: kCitiesKey) as? Data
+//          {
+//            if let savedCities = NSKeyedUnarchiver.unarchiveObject(with: CityData) as? [CityCD]
+//            {
+//              cities = savedCities
+//              tableView.reloadData()
+//            }
+//          }
+//        }
 //  }
 }
 
