@@ -185,21 +185,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City Name, State" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4a-MZ-pWc">
-                                                    <rect key="frame" x="15" y="12" width="168.5" height="20.5"/>
-                                                    <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="20"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City Name, State or Zip Code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lnG-md-2hQ">
+                                                    <rect key="frame" x="8" y="7" width="375" height="30"/>
                                                     <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="20"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="y4a-MZ-pWc" firstAttribute="leading" secondItem="jEC-Ia-dx2" secondAttribute="leading" constant="15" id="jKo-Gg-rTv"/>
-                                                <constraint firstItem="y4a-MZ-pWc" firstAttribute="centerY" secondItem="jEC-Ia-dx2" secondAttribute="centerY" id="wk7-sU-IgQ"/>
+                                                <constraint firstItem="lnG-md-2hQ" firstAttribute="centerY" secondItem="jEC-Ia-dx2" secondAttribute="centerY" id="HrP-Pg-gnE"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="lnG-md-2hQ" secondAttribute="leading" id="MKd-qO-w0l"/>
+                                                <constraint firstItem="lnG-md-2hQ" firstAttribute="width" secondItem="jEC-Ia-dx2" secondAttribute="width" id="ozh-M4-Ftc"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="cityNameLabel" destination="y4a-MZ-pWc" id="kfH-Ce-qKX"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

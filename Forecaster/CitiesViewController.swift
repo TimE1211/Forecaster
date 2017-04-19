@@ -14,19 +14,23 @@ protocol CitiesViewControllerProtocol
   func citiesViewControllerDidSend(latitude: Double, longitude: Double, name: String)
 }
 
+let kCitiesKey = "cities"
+
 class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CitySelectorViewControllerProtocol
 {
   var cities = [City]()
+  var citySelectorViewController = CitySelectorViewController!
   var delegate: CitiesViewControllerProtocol!
   
-//  init(delegate: CitiesViewControllerProtocol)
-//  {
-//    self.delegate = delegate
-//  }
-//  
+  init(delegate: CitiesViewControllerProtocol)
+  {
+    self.delegate = delegate
+  }
+
   override func viewDidLoad()
   {
     super.viewDidLoad()
+    citySelectorViewController = CitySelectorViewController(delegate: self)
   }
   
   override func didReceiveMemoryWarning()

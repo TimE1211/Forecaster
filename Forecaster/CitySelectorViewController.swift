@@ -18,10 +18,11 @@ class CitySelectorViewController: UIViewController
   var location = String()
   var delegate: CitySelectorViewControllerProtocol!
   
-//  init(delegate: CitySelectorViewControllerProtocol)
-//  {
-//    self.delegate = delegate
-//  }
+  init(delegate: CitySelectorViewControllerProtocol)
+  {
+//    super.init()
+    self.delegate = delegate
+  }
   
   @IBOutlet weak var locationTextField: UITextField!
 
@@ -39,7 +40,7 @@ class CitySelectorViewController: UIViewController
   {
     if locationTextField.text != ""
     {
-      location = locationTextField.text ?? ""
+      location = locationTextField.text!
     }
     delegate.cityAdded(location: location)
     self.dismiss(animated: true, completion: nil)
