@@ -62,7 +62,7 @@ class LocationManager
     {
       locationLatitude = location.coordinate.latitude
       locationLongitude = location.coordinate.longitude
-      locationName = String(describing: location)
+      locationName = "Current Location"
       
       delegate.locationManagerDidSend(latitude: locationLatitude, name: locationName, longitude: locationLongitude)
     }

@@ -19,5 +19,99 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Forecaster/AppDelegate.swift"
+            timestampString = "514332963.110886"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "persistentContainer"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Forecaster.AppDelegate.persistentContainer.getter : __ObjC.NSPersistentContainer"
+                  moduleName = "Forecaster"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/TimE/Development/Homework/Forecaster/Forecaster/AppDelegate.swift"
+                  timestampString = "514334550.674096"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "176">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Forecaster.AppDelegate.persistentContainer.setter : __ObjC.NSPersistentContainer"
+                  moduleName = "Forecaster"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/TimE/Development/Homework/Forecaster/Forecaster/AppDelegate.swift"
+                  timestampString = "514334550.67698"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "65">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Forecaster.AppDelegate.(persistentContainer.getter : __ObjC.NSPersistentContainer).(closure #1)"
+                  moduleName = "Forecaster"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/TimE/Development/Homework/Forecaster/Forecaster/AppDelegate.swift"
+                  timestampString = "514334550.680036"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Forecaster.AppDelegate.init () -&gt; Forecaster.AppDelegate"
+                  moduleName = "Forecaster"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/TimE/Development/Homework/Forecaster/Forecaster/AppDelegate.swift"
+                  timestampString = "514334550.682374"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "47">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Forecaster/AppDelegate.swift"
+            timestampString = "514332965.248274"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "saveContext()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

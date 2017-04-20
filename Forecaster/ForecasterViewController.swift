@@ -64,7 +64,6 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
     
     apiController = APIController(delegate: self)
     locationManager = LocationManager(delegate: self)
-    citiesViewController = CitiesViewController(delegate: self)
     
     locationManager.loadCurrentLocation()
   }
@@ -178,6 +177,10 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
       let dailyTVC = segue.destination as! DailyWeatherTableViewController
       dailyTVC.dailyWeather = dailyWeather
     }
+    else if let destination = segue.destination as? CitiesViewController
+    {
+      destination.delegate = self
+    }
   }
 }
 
@@ -198,7 +201,7 @@ extension ForecasterViewController
   }
 }
 
-extension ForecasterViewController                //david and I worked together on animations
+extension ForecasterViewController
 {
   func hideWeatherViewsInPreparationForAnimation()
   {

@@ -18,14 +18,12 @@ protocol CitiesViewControllerProtocol
 class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate
 {
   var cities = [City]()
+  var cityLocations = [CityLocation]()
   let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-  @IBOutlet weak var tableView: UITableView!
+  
   var delegate: CitiesViewControllerProtocol!
   
-  init(delegate: CitiesViewControllerProtocol)
-  {
-    self.delegate = delegate
-  }
+  @IBOutlet weak var tableView: UITableView!
 
   override func viewDidLoad()
   {
@@ -50,52 +48,9 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
   {
     super.didReceiveMemoryWarning()
   }
-  
-//  func cityAdded(location: String)
-//  {
-//    cityNameOrZipLocation(location: location)
-//  }
-//  
-//  func cityNameOrZipLocation(location: String)
-//  {
-//    let geocoder = CLGeocoder()
-//    geocoder.geocodeAddressString(location, completionHandler: {
-//      placemarks, error in
-//      if let geocodeError = error
-//      {
-//        print(geocodeError.localizedDescription)
-//      }
-//      else
-//      {
-//        if let placemark = placemarks?[0]
-//        {
-//          let locationCoordinates = (placemark.location?.coordinate)!
-//          let cityLatitude = locationCoordinates.latitude
-//          let cityLongitude = locationCoordinates.longitude
-//          let cityName = (placemark.name)
-//          let aCity = City(latitude: cityLatitude, longitude: cityLongitude, name: cityName!)
-//          self.cities.append(aCity)
-//        }
-//      }
-//    })
-//  }
 }
 
-//struct City
-//{
-//  var locationLatitude = Double()
-//  var locationLongitude = Double()
-//  var cityName = String()
-//  
-//  init(latitude: Double, longitude: Double, name: String)
-//  {
-//    self.locationLatitude = latitude
-//    self.locationLongitude = longitude
-//    self.cityName = name
-//  }
-//}
-
-extension CitiesViewController          //table view code
+extension CitiesViewController          //table view functions
 {
   override func setEditing(_ editing: Bool, animated: Bool)
   {
@@ -143,10 +98,10 @@ extension CitiesViewController          //table view code
   {
     tableView.deselectRow(at: indexPath, animated: true)
     
-    let selectedCity = cities[indexPath.row]
+    let selectedCity = cityLocations[indexPath.row]
     if selectedCity.name != ""
     {
-      delegate.citiesViewControllerDidSend(latitude: selectedCity.latitude, longitude: selectedCity.longitude, name: selectedCity.name!)
+      delegate.citiesViewControllerDidSend(latitude: selectedCity.latitude, longitude: selectedCity.longitude, name: selectedCity.name)
     }
   }
 
@@ -187,7 +142,52 @@ extension CitiesViewController          //table view code
     setEditing(true, animated: true)
     tableView.reloadData()
   }
+}
 
+extension CitiesViewController      //location functions
+{
+  func cityAdded(location: String)
+  {
+    cityNameOrZipLocation(location: location)
+  }
+  
+  func cityNameOrZipLocation(location: String)
+  {
+    let geocoder = CLGeocoder()
+    geocoder.geocodeAddressString(location, completionHandler: {
+      placemarks, error in
+      if let geocodeError = error
+      {
+        print(geocodeError.localizedDescription)
+      }
+      else
+      {
+        if let placemark = placemarks?[0]
+        {
+          let locationCoordinates = (placemark.location?.coordinate)!
+          let cityLatitude = locationCoordinates.latitude
+          let cityLongitude = locationCoordinates.longitude
+          let cityName = (placemark.name)
+          let aCityLocation = CityLocation(latitude: cityLatitude, longitude: cityLongitude, name: cityName!)
+          self.cityLocations.append(aCityLocation)
+        }
+      }
+    })
+  }
+}
+
+struct CityLocation
+{
+  var latitude: Double
+  var longitude: Double
+  var name: String
+  
+  init(latitude: Double, longitude: Double, name: String)
+  {
+    self.latitude = latitude
+    self.longitude = longitude
+    self.name = name
+  }
 }
 
 
