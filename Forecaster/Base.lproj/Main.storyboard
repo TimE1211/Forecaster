@@ -191,7 +191,7 @@
                                                     <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="20"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
-                                                        <outlet property="delegate" destination="TLm-hC-G7d" id="zPx-Dr-EB2"/>
+                                                        <outlet property="delegate" destination="TLm-hC-G7d" id="mDv-3x-Rlr"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>

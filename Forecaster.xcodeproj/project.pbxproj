@@ -18,7 +18,7 @@
 		20751DCB1EA69D72003C801D /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20751DCA1EA69D72003C801D /* CityCell.swift */; };
 		20751DCD1EA69F12003C801D /* CitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20751DCC1EA69F12003C801D /* CitiesViewController.swift */; };
 		20751DD11EA6AC93003C801D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20751DD01EA6AC93003C801D /* LocationManager.swift */; };
-		20758D6E1EA80D4800B26187 /* cities.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20758D6C1EA80D4800B26187 /* cities.xcdatamodeld */; };
+		20758D6E1EA80D4800B26187 /* City.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20758D6C1EA80D4800B26187 /* City.xcdatamodeld */; };
 		20F26FCE1E9BAA3000348D81 /* images.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 20F26FCD1E9BAA3000348D81 /* images.jpeg */; };
 		20F26FD01E9BAB3700348D81 /* colourback_9006.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20F26FCF1E9BAB3700348D81 /* colourback_9006.jpg */; };
 		20F26FD41E9BD6BF00348D81 /* DailyWeatherTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F26FD31E9BD6BF00348D81 /* DailyWeatherTableViewController.swift */; };
@@ -40,7 +40,7 @@
 		20751DCA1EA69D72003C801D /* CityCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		20751DCC1EA69F12003C801D /* CitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitiesViewController.swift; sourceTree = "<group>"; };
 		20751DD01EA6AC93003C801D /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		20758D6D1EA80D4800B26187 /* cities.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = cities.xcdatamodel; sourceTree = "<group>"; };
+		20758D6D1EA80D4800B26187 /* City.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = City.xcdatamodel; sourceTree = "<group>"; };
 		20F26FCD1E9BAA3000348D81 /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
 		20F26FCF1E9BAB3700348D81 /* colourback_9006.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = colourback_9006.jpg; sourceTree = "<group>"; };
 		20F26FD31E9BD6BF00348D81 /* DailyWeatherTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyWeatherTableViewController.swift; sourceTree = "<group>"; };
@@ -78,7 +78,7 @@
 		2054BF231E95509B00AA1897 /* Forecaster */ = {
 			isa = PBXGroup;
 			children = (
-				20758D6C1EA80D4800B26187 /* cities.xcdatamodeld */,
+				20758D6C1EA80D4800B26187 /* City.xcdatamodeld */,
 				2054BF241E95509B00AA1897 /* AppDelegate.swift */,
 				2054BF261E95509B00AA1897 /* ForecasterViewController.swift */,
 				20F26FD31E9BD6BF00348D81 /* DailyWeatherTableViewController.swift */,
@@ -176,7 +176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20758D6E1EA80D4800B26187 /* cities.xcdatamodeld in Sources */,
+				20758D6E1EA80D4800B26187 /* City.xcdatamodeld in Sources */,
 				20751DCD1EA69F12003C801D /* CitiesViewController.swift in Sources */,
 				2054BF5D1E97FCE200AA1897 /* DailyWeather.swift in Sources */,
 				20751DD11EA6AC93003C801D /* LocationManager.swift in Sources */,
@@ -353,13 +353,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		20758D6C1EA80D4800B26187 /* cities.xcdatamodeld */ = {
+		20758D6C1EA80D4800B26187 /* City.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				20758D6D1EA80D4800B26187 /* cities.xcdatamodel */,
+				20758D6D1EA80D4800B26187 /* City.xcdatamodel */,
 			);
-			currentVersion = 20758D6D1EA80D4800B26187 /* cities.xcdatamodel */;
-			path = cities.xcdatamodeld;
+			currentVersion = 20758D6D1EA80D4800B26187 /* City.xcdatamodel */;
+			path = City.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

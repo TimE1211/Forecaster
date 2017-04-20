@@ -30,13 +30,11 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
     super.viewDidLoad()
     navigationItem.rightBarButtonItem = editButtonItem
     
-    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "City")
+    let fetchRequest: NSFetchRequest<City> = City.fetchRequest()
     do
     {
-      if let fetchResults = try context.fetch(fetchRequest) as? [City]
-      {
-        cities = fetchResults
-      }
+      let fetchResults = try context.fetch(fetchRequest)
+      cities = fetchResults
     }
     catch {
       let nserror = error as NSError
@@ -98,11 +96,8 @@ extension CitiesViewController          //table view functions
   {
     tableView.deselectRow(at: indexPath, animated: true)
     
-    let selectedCity = cityLocations[indexPath.row]
-    if selectedCity.name != ""
-    {
-      delegate.citiesViewControllerDidSend(latitude: selectedCity.latitude, longitude: selectedCity.longitude, name: selectedCity.name)
-    }
+    let selectedCity = cities[indexPath.row]
+      delegate.citiesViewControllerDidSend(latitude: selectedCity.latitude, longitude: selectedCity.longitude, name: selectedCity.name!)
   }
 
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
@@ -120,16 +115,17 @@ extension CitiesViewController          //table view functions
   {
     if let contentView = textField.superview,
       let cell = contentView.superview as? CityCell,
-      let indexPath = tableView.indexPath(for: cell)
+      let cityIndexPath = tableView.indexPath(for: cell)
     {
-      let selectedCity = cities[indexPath.row]
+      let selectedCity = cities[cityIndexPath.row]
       if textField.text != ""
       {
-        if textField == cell.locationTextField
-        {
-          selectedCity.name = textField.text
-          cell.locationTextField.resignFirstResponder()
-        }
+        cell.locationTextField.resignFirstResponder()
+        cityNameOrZipLocation(location: textField.text!)
+        let selectedCityLocation = cityLocations[cityIndexPath.row]
+        selectedCity.latitude = selectedCityLocation.latitude
+        selectedCity.longitude = selectedCityLocation.longitude
+        selectedCity.name = selectedCityLocation.name
       }
     }
     return false
@@ -137,7 +133,7 @@ extension CitiesViewController          //table view functions
   
   @IBAction func addNewCity(sender: UIBarButtonItem)
   {
-    let aCity = NSEntityDescription.insertNewObject(forEntityName: "City", into: context) as! City
+    let aCity = City(context: context)
     cities.append(aCity)
     setEditing(true, animated: true)
     tableView.reloadData()
@@ -146,10 +142,6 @@ extension CitiesViewController          //table view functions
 
 extension CitiesViewController      //location functions
 {
-  func cityAdded(location: String)
-  {
-    cityNameOrZipLocation(location: location)
-  }
   
   func cityNameOrZipLocation(location: String)
   {
