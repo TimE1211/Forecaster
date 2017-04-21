@@ -121,11 +121,32 @@ extension CitiesViewController          //table view functions
       if textField.text != ""
       {
         cell.locationTextField.resignFirstResponder()
-        cityNameOrZipLocation(location: textField.text!)
-        let selectedCityLocation = cityLocations[cityIndexPath.row]
-        selectedCity.latitude = selectedCityLocation.latitude
-        selectedCity.longitude = selectedCityLocation.longitude
-        selectedCity.name = selectedCityLocation.name
+//        cityNameOrZipLocation(location: textField.text!)
+        
+        tryGeocode(from: textField.text, completion: {
+          placemarks, error in
+          if let geocodeError = error
+          {
+            print(geocodeError.localizedDescription)
+          }
+          else if let placemark = placemarks?.first, let coordinate = placemark.location?.coordinate
+          {
+            let cityLatitude = coordinate.latitude
+            let cityLongitude = coordinate.longitude
+            let cityName = placemark.name ?? ""
+            let aCityLocation = CityLocation(latitude: cityLatitude, longitude: cityLongitude, name: cityName)
+            
+            self.cityLocations.append(aCityLocation)
+            
+            let selectedCityLocation = self.cityLocations[cityIndexPath.row]
+            selectedCity.latitude = selectedCityLocation.latitude
+            selectedCity.longitude = selectedCityLocation.longitude
+            selectedCity.name = selectedCityLocation.name
+          }
+        })
+        
+        print(cities.count)
+        print(cityLocations.count)
       }
     }
     return false
@@ -142,29 +163,10 @@ extension CitiesViewController          //table view functions
 
 extension CitiesViewController      //location functions
 {
-  
-  func cityNameOrZipLocation(location: String)
+  func tryGeocode(from string: String?, completion: @escaping CLGeocodeCompletionHandler)
   {
     let geocoder = CLGeocoder()
-    geocoder.geocodeAddressString(location, completionHandler: {
-      placemarks, error in
-      if let geocodeError = error
-      {
-        print(geocodeError.localizedDescription)
-      }
-      else
-      {
-        if let placemark = placemarks?[0]
-        {
-          let locationCoordinates = (placemark.location?.coordinate)!
-          let cityLatitude = locationCoordinates.latitude
-          let cityLongitude = locationCoordinates.longitude
-          let cityName = (placemark.name)
-          let aCityLocation = CityLocation(latitude: cityLatitude, longitude: cityLongitude, name: cityName!)
-          self.cityLocations.append(aCityLocation)
-        }
-      }
-    })
+    geocoder.geocodeAddressString(string ?? "", completionHandler: completion)
   }
 }
 
