@@ -121,8 +121,7 @@ extension CitiesViewController          //table view functions
       if textField.text != ""
       {
         cell.locationTextField.resignFirstResponder()
-//        cityNameOrZipLocation(location: textField.text!)
-        
+
         tryGeocode(from: textField.text, completion: {
           placemarks, error in
           if let geocodeError = error
@@ -133,15 +132,13 @@ extension CitiesViewController          //table view functions
           {
             let cityLatitude = coordinate.latitude
             let cityLongitude = coordinate.longitude
-            let cityName = placemark.name ?? ""
-            let aCityLocation = CityLocation(latitude: cityLatitude, longitude: cityLongitude, name: cityName)
+            let aCityLocation = CityLocation(latitude: cityLatitude, longitude: cityLongitude)
             
             self.cityLocations.append(aCityLocation)
             
             let selectedCityLocation = self.cityLocations[cityIndexPath.row]
             selectedCity.latitude = selectedCityLocation.latitude
             selectedCity.longitude = selectedCityLocation.longitude
-            selectedCity.name = selectedCityLocation.name
           }
         })
         
@@ -174,13 +171,11 @@ struct CityLocation
 {
   var latitude: Double
   var longitude: Double
-  var name: String
   
-  init(latitude: Double, longitude: Double, name: String)
+  init(latitude: Double, longitude: Double)
   {
     self.latitude = latitude
     self.longitude = longitude
-    self.name = name
   }
 }
 
