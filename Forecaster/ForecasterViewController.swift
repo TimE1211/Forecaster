@@ -194,10 +194,9 @@ extension ForecasterViewController
 //    print("\(locationLatitude) + \(locationLongitude)")
   }
   
-  func citiesViewControllerDidSend(latitude: Double, longitude: Double, name: String)
+  func citiesViewControllerDidSend(latitude: Double, longitude: Double)
   {
     apiController.searchDarkSkyFor(latitude: "\(latitude)", longitude: "\(longitude)")
-    currentLocationLabel.text = name
   }
 }
 

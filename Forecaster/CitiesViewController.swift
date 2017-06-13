@@ -12,7 +12,7 @@ import CoreData
 
 protocol CitiesViewControllerProtocol
 {
-  func citiesViewControllerDidSend(latitude: Double, longitude: Double, name: String)
+  func citiesViewControllerDidSend(latitude: Double, longitude: Double)
 }
 
 class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate
@@ -28,15 +28,13 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    navigationItem.rightBarButtonItem = editButtonItem
-    
     let fetchRequest: NSFetchRequest<City> = City.fetchRequest()
     do
     {
       let fetchResults = try context.fetch(fetchRequest)
       cities = fetchResults
-    }
-    catch {
+    } catch
+    {
       let nserror = error as NSError
       NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
     }
@@ -50,16 +48,7 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
 
 extension CitiesViewController          //table view functions
 {
-  override func setEditing(_ editing: Bool, animated: Bool)
-  {
-    super.setEditing(editing, animated: animated)
-    tableView.setEditing(editing, animated: animated)
-    
-    if !editing
-    {
-      (UIApplication.shared.delegate as! AppDelegate).saveContext()
-    }
-  }
+//(UIApplication.shared.delegate as! AppDelegate).saveContext()
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
@@ -71,23 +60,7 @@ extension CitiesViewController          //table view functions
     let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
     
     let aCity = cities[indexPath.row]
-    if tableView.isEditing
-    {
-      cell.locationTextField.isEnabled = true
-    }
-    else
-    {
-      cell.locationTextField.isEnabled = false
-    }
-    
-    if let name = aCity.name
-    {
-      cell.locationTextField.text = name
-    }
-    else
-    {
-      cell.locationTextField.becomeFirstResponder()
-    }
+    cell.locationTextField.text = aCity.name
     
     return cell
   }
@@ -97,7 +70,7 @@ extension CitiesViewController          //table view functions
     tableView.deselectRow(at: indexPath, animated: true)
     
     let selectedCity = cities[indexPath.row]
-      delegate.citiesViewControllerDidSend(latitude: selectedCity.latitude, longitude: selectedCity.longitude, name: selectedCity.name!)
+      delegate.citiesViewControllerDidSend(latitude: selectedCity.latitude, longitude: selectedCity.longitude)
   }
 
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
@@ -111,50 +84,50 @@ extension CitiesViewController          //table view functions
     }
   }
   
-  func textFieldShouldReturn(_ textField: UITextField) -> Bool
-  {
-    if let contentView = textField.superview,
-      let cell = contentView.superview as? CityCell,
-      let cityIndexPath = tableView.indexPath(for: cell)
-    {
-      let selectedCity = cities[cityIndexPath.row]
-      if textField.text != ""
-      {
-        cell.locationTextField.resignFirstResponder()
-
-        tryGeocode(from: textField.text, completion: {
-          placemarks, error in
-          if let geocodeError = error
-          {
-            print(geocodeError.localizedDescription)
-          }
-          else if let placemark = placemarks?.first, let coordinate = placemark.location?.coordinate
-          {
-            let cityLatitude = coordinate.latitude
-            let cityLongitude = coordinate.longitude
-            let aCityLocation = CityLocation(latitude: cityLatitude, longitude: cityLongitude)
-            
-            self.cityLocations.append(aCityLocation)
-            
-            let selectedCityLocation = self.cityLocations[cityIndexPath.row]
-            selectedCity.latitude = selectedCityLocation.latitude
-            selectedCity.longitude = selectedCityLocation.longitude
-          }
-        })
-        
-        print(cities.count)
-        print(cityLocations.count)
-      }
-    }
-    return false
-  }
-  
   @IBAction func addNewCity(sender: UIBarButtonItem)
   {
     let aCity = City(context: context)
     cities.append(aCity)
-    setEditing(true, animated: true)
-    tableView.reloadData()
+    
+    let alert = UIAlertController(title: "New City", message: "Please Enter a Zip Code or City Name, State then Confirm", preferredStyle: .alert)
+    
+    alert.addTextField { textField in
+      textField.placeholder = "City, State, or Zip Code"
+      textField.keyboardType = .default
+    }
+    
+    let confirmAction = UIAlertAction(title: "Confirm", style: .default) { [weak self] _ in
+      guard let `self` = self else { return }
+      
+      guard let city = alert.textFields?.first?.text, city != "" else
+      {
+        self.pleaseEnterDataAlert()
+        return
+      }
+      self.tryGeocode(from: city, completion: { placemarks, error in
+        if let geocodeError = error
+        {
+          print(geocodeError.localizedDescription)
+        }
+        else if let placemark = placemarks?.first, let coordinate = placemark.location?.coordinate
+        {
+          let cityLatitude = coordinate.latitude
+          let cityLongitude = coordinate.longitude
+          let aCityLocation = CityLocation(latitude: cityLatitude, longitude: cityLongitude, name: city)
+          
+          self.cityLocations.append(aCityLocation)
+          
+          //need to set current city here and then present the main vc
+
+        }
+      })
+    }
+    
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    
+    alert.addAction(confirmAction)
+    alert.addAction(cancelAction)
+    present(alert, animated: true, completion: nil)
   }
 }
 
@@ -171,15 +144,39 @@ struct CityLocation
 {
   var latitude: Double
   var longitude: Double
+  var name: String
   
-  init(latitude: Double, longitude: Double)
+  init(latitude: Double, longitude: Double, name: String)
   {
     self.latitude = latitude
     self.longitude = longitude
+    self.name = name
   }
 }
 
+extension CitiesViewController        //alert warnings
+{
+  func pleaseEnterDataAlert()
+  {
+    let errorAlert = UIAlertController(title: "Error - Incorrect Data", message: "Please enter a valid City or Zip Code", preferredStyle: .deviceSpecific)
+    
+    let action = UIAlertAction(title: "Okay", style: .default, handler: nil)
+    errorAlert.addAction(action)
+    self.present(errorAlert, animated: true, completion: nil)
+  }
+}
 
+extension UIAlertControllerStyle          //for ipads
+{
+  static var deviceSpecific: UIAlertControllerStyle
+  {
+    if UIDevice.current.userInterfaceIdiom == .pad
+    {
+      return .alert
+    }
+    return .actionSheet
+  }
+}
 
 
 
