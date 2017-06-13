@@ -174,7 +174,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
   {
     if segue.identifier == "WeeklyForecastSegue"
     {
-      let dailyTVC = segue.destination as! DailyWeatherTableViewController
+      let dailyTVC = segue.destination as! WeeklyWeatherTableViewController
       dailyTVC.dailyWeather = dailyWeather
     }
     else if let destination = segue.destination as? CitiesViewController

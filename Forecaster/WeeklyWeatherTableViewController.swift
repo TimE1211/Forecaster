@@ -1,5 +1,5 @@
 //
-//  DailyWeatherTableViewController.swift
+//  WeeklyWeatherTableViewController.swift
 //  Forecaster
 //
 //  Created by Timothy Hang on 4/10/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DailyWeatherTableViewController: UITableViewController
+class WeeklyWeatherTableViewController: UITableViewController
 {
   var dailyWeather = [DailyWeather]()
   let formatter = DateFormatter()
@@ -42,7 +42,7 @@ class DailyWeatherTableViewController: UITableViewController
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
   {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "DailyWeatherCell", for: indexPath) as! DailyWeatherCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "WeeklyWeatherCell", for: indexPath) as! WeeklyWeatherCell
     
     var precipType = String()
     
