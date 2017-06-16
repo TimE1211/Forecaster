@@ -103,26 +103,12 @@ extension CitiesViewController          //table view functions
   }
 }
 
-extension CitiesViewController      //location functions
+extension CitiesViewController      //location functions maybe should move to location manager
 {
   func tryGeocode(from string: String?, completion: @escaping CLGeocodeCompletionHandler)
   {
     let geocoder = CLGeocoder()
     geocoder.geocodeAddressString(string ?? "", completionHandler: completion)
-  }
-}
-
-struct CityLocation
-{
-  var latitude: Double
-  var longitude: Double
-  var name: String
-  
-  init(latitude: Double, longitude: Double, name: String)
-  {
-    self.latitude = latitude
-    self.longitude = longitude
-    self.name = name
   }
 }
 
