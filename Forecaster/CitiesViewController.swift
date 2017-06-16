@@ -8,36 +8,17 @@
 
 import UIKit
 import CoreLocation
-import CoreData
-
-protocol CitiesViewControllerProtocol
-{
-  func citiesViewControllerDidSend(latitude: Double, longitude: Double)
-}
 
 class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate
 {
   var cities = [City]()
-  var cityLocations = [CityLocation]()
-  let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-  
-  var delegate: CitiesViewControllerProtocol!
   
   @IBOutlet weak var tableView: UITableView!
 
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    let fetchRequest: NSFetchRequest<City> = City.fetchRequest()
-    do
-    {
-      let fetchResults = try context.fetch(fetchRequest)
-      cities = fetchResults
-    } catch
-    {
-      let nserror = error as NSError
-      NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
-    }
+    //cities add saved cites from saved data
   }
 
   override func didReceiveMemoryWarning()
@@ -48,8 +29,6 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
 
 extension CitiesViewController          //table view functions
 {
-//(UIApplication.shared.delegate as! AppDelegate).saveContext()
-  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
     return cities.count
@@ -57,10 +36,10 @@ extension CitiesViewController          //table view functions
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
   {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath)
     
     let aCity = cities[indexPath.row]
-    cell.locationTextField.text = aCity.name
+    cell.textLabel?.text = aCity.name
     
     return cell
   }
@@ -68,17 +47,15 @@ extension CitiesViewController          //table view functions
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
   {
     tableView.deselectRow(at: indexPath, animated: true)
-    
-    let selectedCity = cities[indexPath.row]
-      delegate.citiesViewControllerDidSend(latitude: selectedCity.latitude, longitude: selectedCity.longitude)
+    City.current = cities[indexPath.row]
   }
 
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
   {
     if editingStyle == .delete
     {
-      let cityToDelete = cities[indexPath.row]
-      context.delete(cityToDelete)
+//      let cityToDelete = cities[indexPath.row]
+//      remove city from saved data
       cities.remove(at: indexPath.row)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     }
@@ -86,9 +63,6 @@ extension CitiesViewController          //table view functions
   
   @IBAction func addNewCity(sender: UIBarButtonItem)
   {
-    let aCity = City(context: context)
-    cities.append(aCity)
-    
     let alert = UIAlertController(title: "New City", message: "Please Enter a Zip Code or City Name, State then Confirm", preferredStyle: .alert)
     
     alert.addTextField { textField in
@@ -113,12 +87,10 @@ extension CitiesViewController          //table view functions
         {
           let cityLatitude = coordinate.latitude
           let cityLongitude = coordinate.longitude
-          let aCityLocation = CityLocation(latitude: cityLatitude, longitude: cityLongitude, name: city)
-          
-          self.cityLocations.append(aCityLocation)
-          
-          //need to set current city here and then present the main vc
 
+          City.current = City(latitude: cityLatitude, longitude: cityLongitude, name: city)
+          self.cities.append(City.current)
+          //added to saved data
         }
       })
     }

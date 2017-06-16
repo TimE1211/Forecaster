@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class ForecasterViewController: UIViewController, APIControllerProtocol, LocationManagerDelegate, CitiesViewControllerProtocol
+class ForecasterViewController: UIViewController, APIControllerProtocol, LocationManagerDelegate
 {
   var apiController: APIController!
   var locationManager: LocationManager!
@@ -80,11 +80,11 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
     super.didReceiveMemoryWarning()
   }
 
-  func apiControllerDidSend(results1: [String : Any], results2: [String: Any])      // protocol function receiving info below
+  func apiControllerDidSend(results1: [String : Any], results2: [String: Any])
   {
     let dailyDataArray = results2["data"] as! [Any]
     let todaysData = dailyDataArray[0] as! [String: Any]
-    let currentWeather = CurrentlyWeather(currentlyDictionary: results1)    //Weather object with the "currently" key value dictionary
+    let currentWeather = CurrentlyWeather(currentlyDictionary: results1)
     let todaysWeather = DailyWeather(dailyDictionary: todaysData)
     
     self.reloadViewCurrently(with: currentWeather)
@@ -169,19 +169,6 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
       cloudCoverLabel.text = ""
     }
   }
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if segue.identifier == "WeeklyForecastSegue"
-    {
-      let dailyTVC = segue.destination as! WeeklyWeatherTableViewController
-      dailyTVC.dailyWeather = dailyWeather
-    }
-    else if let destination = segue.destination as? CitiesViewController
-    {
-      destination.delegate = self
-    }
-  }
 }
 
 extension ForecasterViewController
@@ -191,7 +178,6 @@ extension ForecasterViewController
     self.locationLatitude = locationManager.locationLatitude
     self.locationLongitude = locationManager.locationLongitude
     self.currentLocationLabel.text = locationManager.locationName
-//    print("\(locationLatitude) + \(locationLongitude)")
   }
   
   func citiesViewControllerDidSend(latitude: Double, longitude: Double)

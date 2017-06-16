@@ -32,7 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate
   {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    (UIApplication.shared.delegate as! AppDelegate).saveContext()
   }
 
   func applicationWillEnterForeground(_ application: UIApplication)
@@ -49,37 +48,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate
   {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
-
-  //MARK: - Core Data stack
-  lazy var persistentContainer: NSPersistentContainer = {   //intentionally causing a crash
-    let container = NSPersistentContainer(name: "City")
-    container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-      if let error = error as NSError?
-      {
-        fatalError("Unresolved error \(error), \(error.userInfo)")
-      }
-    })
-    
-    return container
-  }()
-  
-  func saveContext()
-  {
-    let context = persistentContainer.viewContext
-    if context.hasChanges
-    {
-      do
-      {
-        try context.save()
-      }
-      catch
-      {
-        let nserror = error as NSError
-        fatalError("Unresolved error \(error), \(nserror.userInfo)")
-      }
-    }
-  }
-
-
 }
 
