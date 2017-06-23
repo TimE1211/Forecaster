@@ -13,12 +13,9 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
 {
   var apiController: APIController!
   var locationManager: LocationManager!
-  var citiesViewController: CitiesViewController!
   
   let formatter = DateFormatter()
   let today = Date()
-  var locationLatitude = Double()
-  var locationLongitude = Double()
   
   var dailyWeather = [DailyWeather]()
   
@@ -64,14 +61,16 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
     
     apiController = APIController(delegate: self)
     locationManager = LocationManager(delegate: self)
-    
     locationManager.loadCurrentLocation()
   }
   
   override func viewWillAppear(_ animated: Bool)
   {
     super.viewWillAppear(animated)
-    apiController.searchDarkSkyFor(latitude: "\(locationLatitude)", longitude: "\(locationLongitude)")
+    if City.current != nil
+    {
+      apiController.searchDarkSkyFor(latitude: "\(City.current.latitude)", longitude: "\(City.current.latitude)")
+    }
     hideWeatherViewsInPreparationForAnimation()
   }
 
@@ -171,22 +170,12 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
   }
 }
 
-extension ForecasterViewController
+extension ForecasterViewController  //current location
 {
-  func locationManagerDidSend(latitude: Double, name: String, longitude: Double)
-  {
-    self.locationLatitude = locationManager.locationLatitude
-    self.locationLongitude = locationManager.locationLongitude
-    self.currentLocationLabel.text = locationManager.locationName
-  }
-  
-  func citiesViewControllerDidSend(latitude: Double, longitude: Double)
-  {
-    apiController.searchDarkSkyFor(latitude: "\(latitude)", longitude: "\(longitude)")
-  }
+
 }
 
-extension ForecasterViewController
+extension ForecasterViewController    //animate labels
 {
   func hideWeatherViewsInPreparationForAnimation()
   {

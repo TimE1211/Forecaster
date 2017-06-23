@@ -11,7 +11,7 @@ import CoreLocation
 
 protocol LocationManagerDelegate
 {
-  func locationManagerDidSend(latitude: Double, name: String, longitude: Double)
+
 }
 
 class LocationManager
@@ -59,11 +59,9 @@ class LocationManager
     locationManager.stopUpdatingLocation()
     if let location = locations.last
     {
-      locationLatitude = location.coordinate.latitude
-      locationLongitude = location.coordinate.longitude
-      locationName = "Current Location"
+      City.current = City(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, name: "Current Location")
       
-      delegate.locationManagerDidSend(latitude: locationLatitude, name: locationName, longitude: locationLongitude)
+      search //api for weather info on this location in forecaster when we get current location info
     }
   }
 }

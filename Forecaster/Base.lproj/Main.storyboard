@@ -96,8 +96,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TqE-1c-mW7">
-                                <rect key="frame" x="129.5" y="264" width="115" height="30"/>
-                                <state key="normal" title="Current Location"/>
+                                <rect key="frame" x="157.5" y="264" width="59" height="30"/>
+                                <state key="normal" title="Location"/>
                                 <connections>
                                     <segue destination="TLm-hC-G7d" kind="show" identifier="CurrentLocationSegue" id="YIj-ID-Cui"/>
                                 </connections>

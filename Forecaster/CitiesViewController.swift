@@ -18,7 +18,15 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    //cities add saved cites from saved data
+    
+    for aCity in cities
+    {
+      if aCity.longitude == City.current.longitude && aCity.latitude == City.current.latitude
+      {
+        cities.append(City.current)
+      }
+    }
+    //cities load saved cites from saved data
   }
 
   override func didReceiveMemoryWarning()
@@ -48,6 +56,7 @@ extension CitiesViewController          //table view functions
   {
     tableView.deselectRow(at: indexPath, animated: true)
     City.current = cities[indexPath.row]
+    self.dismiss(animated: true, completion: nil)
   }
 
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
@@ -90,7 +99,8 @@ extension CitiesViewController          //table view functions
 
           City.current = City(latitude: cityLatitude, longitude: cityLongitude, name: city)
           self.cities.append(City.current)
-          //added to saved data
+          self.tableView.reloadData()
+          //add to saved data
         }
       })
     }
