@@ -9,11 +9,6 @@
 import Foundation
 import CoreLocation
 
-protocol LocationManagerDelegate
-{
-
-}
-
 class LocationManager
 {
   var locationLatitude = Double()

@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class ForecasterViewController: UIViewController, APIControllerProtocol, LocationManagerDelegate
+class ForecasterViewController: UIViewController, APIControllerProtocol
 {
   var apiController: APIController!
   var locationManager: LocationManager!
@@ -60,7 +60,6 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, Locatio
     }
     
     apiController = APIController(delegate: self)
-    locationManager = LocationManager(delegate: self)
     locationManager.loadCurrentLocation()
   }
   
