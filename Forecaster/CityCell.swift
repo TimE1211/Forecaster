@@ -10,16 +10,18 @@ import UIKit
 
 class CityCell: UITableViewCell
 {
+//  @IBOutlet weak var cityNameLabel: UILabel!
+//  @IBOutlet weak var cityCloudCoverLabel: UILabel!
+//  @IBOutlet weak var cityTempLabel: UILabel!
+  @IBOutlet weak var locationTextField: UITextField!
+  
   override func awakeFromNib()
   {
     super.awakeFromNib()
-    // Initialization code
   }
 
   override func setSelected(_ selected: Bool, animated: Bool)
   {
     super.setSelected(selected, animated: animated)
-
-    // Configure the view for the selected state
   }
 }

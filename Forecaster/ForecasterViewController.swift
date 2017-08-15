@@ -9,14 +9,17 @@
 import UIKit
 import CoreLocation
 
-class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocationManagerDelegate
+class ForecasterViewController: UIViewController, APIControllerProtocol, LocationManagerDelegate, CitiesViewControllerProtocol
 {
-  var apiController: APIController!   //ApiController Object not made yet, need var apiController to call search url function from class ApiController
+  var apiController: APIController!
+  var locationManager: LocationManager!
+  var citiesViewController: CitiesViewController!
+  
   let formatter = DateFormatter()
   let today = Date()
   var locationLatitude = Double()
   var locationLongitude = Double()
-  let locationManager = CLLocationManager()
+  
   var dailyWeather = [DailyWeather]()
   
   @IBOutlet weak var precipProbabilityLabel: UILabel!
@@ -28,6 +31,7 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
   @IBOutlet weak var umbrellaLabel: UILabel!
   @IBOutlet weak var minTempLabel: UILabel!
   @IBOutlet weak var maxTempLabel: UILabel!
+  @IBOutlet weak var currentLocationLabel: UILabel!
   
   override func viewDidLoad()
   {
@@ -48,28 +52,20 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     windSpeedLabel.text = ""
     minTempLabel.text = ""
     maxTempLabel.text = ""
-    
-   // let blurView = UIVisualEffectView(frame: self.view.frame)
-    
-   // self.view.addSubview(blurView)
-   // self.view.sendSubview(toBack: blurView)
-    
-    loadCurrentLocation()
-    
-//    for label in [hatLabel, bootsLabel,umbrellaLabel, cloudCoverLabel]
-//    {
-//      label?.isHidden = true
-//    }                                         this code is for hiding labels that arnt ready by david
+    currentLocationLabel.text = ""
     
     if let label = temperatureLabel
     {
-      label.layer.cornerRadius = label.frame.width/2       //how to make a circle around labels help from david
+      label.layer.cornerRadius = label.frame.width/2
       label.layer.borderColor = UIColor.gray.cgColor
       label.layer.borderWidth = 5.0
       label.layer.backgroundColor = UIColor.white.cgColor
     }
     
     apiController = APIController(delegate: self)
+    locationManager = LocationManager(delegate: self)
+    
+    locationManager.loadCurrentLocation()
   }
   
   override func viewWillAppear(_ animated: Bool)
@@ -143,9 +139,6 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
     {
       hatLabel.text = ""
     }
-    // clouds
-    
-    //cloudCoverLabel.text = ⛈
     
     if weather.cloudCover < 0.25 && weather.precipProbability < 1
     {
@@ -184,51 +177,31 @@ class ForecasterViewController: UIViewController, APIControllerProtocol, CLLocat
       let dailyTVC = segue.destination as! DailyWeatherTableViewController
       dailyTVC.dailyWeather = dailyWeather
     }
+    else if let destination = segue.destination as? CitiesViewController
+    {
+      destination.delegate = self
+    }
   }
 }
 
-extension ForecasterViewController      //location functions
+extension ForecasterViewController
 {
-
-  func loadCurrentLocation()
+  func locationManagerDidSend(latitude: Double, name: String, longitude: Double)
   {
-    configureLocationManager()
+    self.locationLatitude = locationManager.locationLatitude
+    self.locationLongitude = locationManager.locationLongitude
+    self.currentLocationLabel.text = locationManager.locationName
+//    print("\(locationLatitude) + \(locationLongitude)")
   }
   
-  func configureLocationManager()
+  func citiesViewControllerDidSend(latitude: Double, longitude: Double, name: String)
   {
-    if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.denied && CLLocationManager.authorizationStatus() != CLAuthorizationStatus.restricted
-    {
-      locationManager.delegate = self
-      locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-      if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.notDetermined
-      {
-        locationManager.requestWhenInUseAuthorization()
-      }
-    }
+    apiController.searchDarkSkyFor(latitude: "\(latitude)", longitude: "\(longitude)")
+    currentLocationLabel.text = name
   }
-  
-  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus)
-  {
-    if status == CLAuthorizationStatus.authorizedWhenInUse
-    {
-      locationManager.startUpdatingLocation()
-    }
-  }
-  
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-  {
-    locationManager.stopUpdatingLocation()
-    if let location = locations.last
-    {
-      locationLatitude = location.coordinate.latitude
-      locationLongitude = location.coordinate.longitude
-    }
-  }
-  // end of location functions ... could probably move location functions to api to decrease bloat
 }
 
-extension ForecasterViewController                //david and I worked together on animations
+extension ForecasterViewController
 {
   func hideWeatherViewsInPreparationForAnimation()
   {
@@ -248,8 +221,6 @@ extension ForecasterViewController                //david and I worked together 
     {
       label.frame.origin.y = view.frame.height
     }
-//    [array of labels]
-    
     
     UIView.animate(withDuration: 0.5, animations:
     {

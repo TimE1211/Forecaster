@@ -8,27 +8,58 @@
 
 import UIKit
 import CoreLocation
+import CoreData
 
-class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
+protocol CitiesViewControllerProtocol
+{
+  func citiesViewControllerDidSend(latitude: Double, longitude: Double, name: String)
+}
+
+class CitiesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate
 {
   var cities = [City]()
-  var location = String()
+  var cityLocations = [CityLocation]()
+  let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
   
+  var delegate: CitiesViewControllerProtocol!
+  
+  @IBOutlet weak var tableView: UITableView!
+
   override func viewDidLoad()
   {
     super.viewDidLoad()
+    navigationItem.rightBarButtonItem = editButtonItem
     
-    // Do any additional setup after loading the view.
+    let fetchRequest: NSFetchRequest<City> = City.fetchRequest()
+    do
+    {
+      let fetchResults = try context.fetch(fetchRequest)
+      cities = fetchResults
+    }
+    catch {
+      let nserror = error as NSError
+      NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
+    }
   }
-  
+
   override func didReceiveMemoryWarning()
   {
     super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
-  
-  
-  // MARK: - Table view data source
+}
+
+extension CitiesViewController          //table view functions
+{
+  override func setEditing(_ editing: Bool, animated: Bool)
+  {
+    super.setEditing(editing, animated: animated)
+    tableView.setEditing(editing, animated: animated)
+    
+    if !editing
+    {
+      (UIApplication.shared.delegate as! AppDelegate).saveContext()
+    }
+  }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
@@ -40,64 +71,122 @@ class CitiesViewController: UIViewController, UITableViewDataSource, UITableView
     let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! CityCell
     
     let aCity = cities[indexPath.row]
-    cell.titleLabel.text =   aCity.title
-    cell.categoryLabel.text = aCity.category
-    
-    if aCity.done
+    if tableView.isEditing
     {
-      cell.accessoryType = .checkmark
+      cell.locationTextField.isEnabled = true
     }
     else
     {
-      cell.accessoryType = .none
+      cell.locationTextField.isEnabled = false
+    }
+    
+    if let name = aCity.name
+    {
+      cell.locationTextField.text = name
+    }
+    else
+    {
+      cell.locationTextField.becomeFirstResponder()
     }
     
     return cell
   }
   
-  // MARK: - Table view delegate
-  
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
   {
-    //    tableView.cellForRow(at: indexPath)?.accessoryType = .none
     tableView.deselectRow(at: indexPath, animated: true)
     
-    if let selectedCell = tableView.cellForRow(at: indexPath)
+    let selectedCity = cities[indexPath.row]
+      delegate.citiesViewControllerDidSend(latitude: selectedCity.latitude, longitude: selectedCity.longitude, name: selectedCity.name!)
+  }
+
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
+  {
+    if editingStyle == .delete
     {
-      let selectedCity = cities[indexPath.row]
-      
-      let geocoder = CLGeocoder()
-      geocoder.geocodeAddressString(location, completionHandler: {
-        placemarks, error in
-        if let geocodeError = error
-        {
-          print(geocodeError.localizedDescription)
-        }
-      })
+      let cityToDelete = cities[indexPath.row]
+      context.delete(cityToDelete)
+      cities.remove(at: indexPath.row)
+      tableView.deleteRows(at: [indexPath], with: .automatic)
     }
   }
   
-  func saveCities()
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool
   {
-    let cityData = NSKeyedArchiver.archivedData(withRootObject: cities)
-    let defaults = UserDefaults.standard        //singleton -> one  unique object(standard object)
-    //    defaults.set(CityData, forKey: kCitiesKey)
-    //    defaults.synchronize()
-    //  }
-    //
-    //  func loadCities()
-    //  {
-    //    if cities.count == 0
-    //    {
-    //      let defaults = UserDefaults.standard
-    //      if let CityData = defaults.object(forKey: kCitiesKey) as? Data
-    //      {
-    //        if let savedCities = NSKeyedUnarchiver.unarchiveObject(with: CityData) as? [CityCD]
-    //        {
-    //          cities = savedCities
-    //          tableView.reloadData()
-    //        }
-    //      }
-    //    }
+    if let contentView = textField.superview,
+      let cell = contentView.superview as? CityCell,
+      let cityIndexPath = tableView.indexPath(for: cell)
+    {
+      let selectedCity = cities[cityIndexPath.row]
+      if textField.text != ""
+      {
+        cell.locationTextField.resignFirstResponder()
+//        cityNameOrZipLocation(location: textField.text!)
+        
+        tryGeocode(from: textField.text, completion: {
+          placemarks, error in
+          if let geocodeError = error
+          {
+            print(geocodeError.localizedDescription)
+          }
+          else if let placemark = placemarks?.first, let coordinate = placemark.location?.coordinate
+          {
+            let cityLatitude = coordinate.latitude
+            let cityLongitude = coordinate.longitude
+            let cityName = placemark.name ?? ""
+            let aCityLocation = CityLocation(latitude: cityLatitude, longitude: cityLongitude, name: cityName)
+            
+            self.cityLocations.append(aCityLocation)
+            
+            let selectedCityLocation = self.cityLocations[cityIndexPath.row]
+            selectedCity.latitude = selectedCityLocation.latitude
+            selectedCity.longitude = selectedCityLocation.longitude
+            selectedCity.name = selectedCityLocation.name
+          }
+        })
+        
+        print(cities.count)
+        print(cityLocations.count)
+      }
+    }
+    return false
+  }
+  
+  @IBAction func addNewCity(sender: UIBarButtonItem)
+  {
+    let aCity = City(context: context)
+    cities.append(aCity)
+    setEditing(true, animated: true)
+    tableView.reloadData()
   }
 }
+
+extension CitiesViewController      //location functions
+{
+  func tryGeocode(from string: String?, completion: @escaping CLGeocodeCompletionHandler)
+  {
+    let geocoder = CLGeocoder()
+    geocoder.geocodeAddressString(string ?? "", completionHandler: completion)
+  }
+}
+
+struct CityLocation
+{
+  var latitude: Double
+  var longitude: Double
+  var name: String
+  
+  init(latitude: Double, longitude: Double, name: String)
+  {
+    self.latitude = latitude
+    self.longitude = longitude
+    self.name = name
+  }
+}
+
+
+
+
+
+
+
